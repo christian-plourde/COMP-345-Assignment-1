@@ -1,5 +1,6 @@
 #include "SinglyLinkedList.h"
 #include "GraphVertex.h"
+#include "SinglyLinkedListNode.h"
 #include <iostream>
 #include <cstddef>
 
@@ -31,6 +32,7 @@ Graph<T>::Graph(int vertices)
     //create a new vertex and assign it to slot i in the array of vertices
 
     adjacencyList[i] = new SinglyLinkedList<T>();
+
     vertexList[i] = new GraphVertex<T>();
     vertexList[i] -> setIndex(i);
   }
