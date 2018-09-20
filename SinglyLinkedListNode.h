@@ -1,3 +1,6 @@
+#ifndef SINGLYLINKEDLISTNODE_H
+#define SINGLYLINKEDLISTNODE_H
+
 //the header file for a generic singly linked list node
 #include <cstddef>
 #include <iostream>
@@ -52,3 +55,5 @@ void node<T>::display()
 {
   std::cout << data;
 }
+
+#endif
