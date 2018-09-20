@@ -16,7 +16,6 @@ class SinglyLinkedList
     void remove(node<T>*); //remove a node from the list
     node<T>* search(node<T>*); //search the list for a particular node
     bool contains(node<T>*); //determines if the passed node is in the list
-    void clear(); //clears all the elements in the list 
     void display(); //display the linked list's contents
 
 };
@@ -140,28 +139,6 @@ node<T>* SinglyLinkedList<T>::search(node<T>* toFind)
     return NULL;
   }
 
-}
-
-template <class T>
-void SinglyLinkedList<T>::clear()
-{
-  //method to clear everything in the linked list
-  node<T>* currentNode = head;
-  node<T>* next;
-  while(currentNode != NULL)
-  {
-    //set the next pointer to the next node in the list
-    next = currentNode -> getNext();
-    //delete the pointer to the node we are at
-    delete currentNode;
-    //then move to the next node
-    currentNode = next;
-  }
-
-  //delete the real head pointer  and set it to null and make the count 0
-  delete head;
-  head = NULL;
-  count = 0;
 }
 
 template <class T>
