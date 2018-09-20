@@ -1,4 +1,5 @@
 #include "SinglyLinkedList.h"
+#include <vector>
 #include "GraphVertex.h"
 #include "SinglyLinkedListNode.h"
 #include <iostream>
@@ -11,39 +12,46 @@ class Graph
 {
   private:
     int vertexCount; //the number of vertices the graph has
-    SinglyLinkedList<T>* adjacencyList[]; //an array of linked lists that will have a position for each vertex and hold a linked list
-                                       //containing all the vertices it is adjacent to
-    GraphVertex<T>* vertexList[];
+    SinglyLinkedList<T>* adjacencyList; //an array of linked lists that will have a position for each vertex and hold a linked list
+                                          //containing all the vertices it is adjacent to
+    GraphVertex<T>* vertexList;
 
   public:
     Graph(int); //constructor in which we pass the number of vertices
     GraphVertex<T>* getVertex(int); //get the vertex at the specified index in the array of vertices
-    void display();
+    SinglyLinkedList<T>* getNeighbors(int); //get the neighbors of the vertex at the index passed to the function
+    void display(); //method to display the graph's contents to the console
 };
 
 template <class T>
 Graph<T>::Graph(int vertices)
 {
+  std::cout << vertices << '\n';
   vertexCount = vertices;
+  //we need to allocate the memory for the two arrays
+  adjacencyList = new SinglyLinkedList<T>[vertices];
+  vertexList = new GraphVertex<T>[vertices];
 
-  for(int i = 0; i<vertices; i++)
+  for(int i = 0; i<vertexCount; i++)
   {
-    //create a new linked list and assign it to slot i in the array of adjacencylists
-    //create a new vertex and assign it to slot i in the array of vertices
-
-    adjacencyList[i] = new SinglyLinkedList<T>();
-
-    vertexList[i] = new GraphVertex<T>();
-    vertexList[i] -> setIndex(i);
+    //set the index of each vertex in the list to i
+    vertexList[i].setIndex(i);
   }
+}
 
+template <class T>
+SinglyLinkedList<T>* Graph<T>::getNeighbors(int i)
+{
+  SinglyLinkedList<T> * listPtr = &adjacencyList[i];
+  return listPtr;
 }
 
 template <class T>
 GraphVertex<T>* Graph<T>::getVertex(int i)
 {
   //a method to get the vertex at the specified index in the vertex list array
-  return vertexList[i];
+    GraphVertex<T> * vertexPtr = &vertexList[i];
+    return vertexPtr;
 }
 
 template <class T>
@@ -56,7 +64,11 @@ void Graph<T>::display()
 
   else
   {
-
+    for(int i = 0; i < vertexCount; i++)
+    {
+      std::cout << vertexList[i].getData() << " -> ";
+      adjacencyList[i].display();
+    }
   }
 }
 
