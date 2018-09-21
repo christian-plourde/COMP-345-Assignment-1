@@ -1,11 +1,11 @@
-#include "Graph.h"
+#include "Graph/Graph.h"
+#include "Dice/Dice.h"
 
 
 int main()
 {
   //a graph of ten vertices
   Graph<int>* graph = new Graph<int>(10);
-
 
   GraphVertex<int>* v1 = graph -> getVertex(0);
   node<int>* n1 = new node<int>();
@@ -14,9 +14,13 @@ int main()
   l1 -> add(n1);
   v1 -> setData(3);
 
-  l1 -> display();
-
   graph -> display();
+
+  Dice* d1 = new Dice();
+
+
+  d1 -> roll();
+  d1 -> display();
 
 
 
