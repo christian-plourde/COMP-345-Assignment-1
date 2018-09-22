@@ -1,4 +1,5 @@
 #include "DiceFaces.h"
+#include <string>
 
 #ifndef DICE_H
 #define DICE_H
@@ -14,7 +15,7 @@ class Dice
     Dice(); //default constructor
     void roll(); //method to roll the dice
     enum DiceFaces* getResult(); //method to get the result of the dice roll
-    void display(); //method to display the result of the roll
+    std::string toString(); //method to display the result of the roll
 
 };
 

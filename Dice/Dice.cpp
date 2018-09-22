@@ -55,40 +55,36 @@ void Dice::roll()
 
 }
 
-void Dice::display()
+std::string Dice::toString()
 {
-  std::cout << "[";
+  std::string output = "";
+  output += "[";
   for(int i = 0; i<6; i++)
   {
-    std::string toPrint = "";
 
     switch(rolled[i])
     {
-      case Energy: toPrint = "Energy";
+      case Energy: output += "Energy";
       break;
-      case Attack: toPrint = "Attack";
+      case Attack: output += "Attack";
       break;
-      case Destruction: toPrint = "Destruction";
+      case Destruction: output += "Destruction";
       break;
-      case Heal: toPrint = "Heal";
+      case Heal: output += "Heal";
       break;
-      case Celebrity: toPrint = "Celebrity";
+      case Celebrity: output += "Celebrity";
       break;
-      case Ouch: toPrint = "Ouch";
+      case Ouch: output += "Ouch";
       break;
     }
 
     if(i != 5)
     {
-      std::cout << toPrint << ",";
-    }
-
-    else
-    {
-      std::cout << toPrint;
+       output += ",";
     }
 
   }
 
-  std::cout << "]";
+  output += "]";
+  return output;
 }

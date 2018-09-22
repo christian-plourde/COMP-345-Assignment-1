@@ -1,6 +1,6 @@
 #include "Graph/Graph.h"
 #include "Dice/Dice.h"
-
+#include <iostream>
 
 int main()
 {
@@ -14,13 +14,19 @@ int main()
   l1 -> add(n1);
   v1 -> setData(3);
 
-  graph -> display();
+  for(int i = 0; i<graph -> getVertexCount(); i++)
+  {
+    graph -> setVertexData(i,i);
+    graph -> addNeighbor(i,i);
+  }
+
+  std::cout << graph -> toString();
 
   Dice* d1 = new Dice();
 
 
   d1 -> roll();
-  d1 -> display();
+  std::cout << d1 -> toString();
 
 
 

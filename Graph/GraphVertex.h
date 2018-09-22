@@ -2,6 +2,8 @@
 #define GRAPHVERTEX_H
 
 #include <iostream>
+#include <string>
+#include "../Lib/StringFunctions.h"
 
 template <class T>
 class GraphVertex
@@ -17,7 +19,7 @@ class GraphVertex
     void setIndex(int); //change the index of the vertex in the graph's array
     T getData(); //get the data stored in the vertex
     void setData(T); //set the data stored in the vertex
-    void display(); //displays the data stored in the vertex
+    std::string toString(); //displays the data stored in the vertex
 };
 
 template <class T>
@@ -51,9 +53,11 @@ void GraphVertex<T>::setData(T newData)
 }
 
 template <class T>
-void GraphVertex<T>::display()
+std::string GraphVertex<T>::toString()
 {
-  std::cout << data;
+  std::string output = "";
+  output += libString::to_string(data);
+  return output;
 }
 
 #endif

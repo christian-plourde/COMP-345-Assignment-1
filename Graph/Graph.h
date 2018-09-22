@@ -4,6 +4,7 @@
 #include "SinglyLinkedListNode.h"
 #include <iostream>
 #include <cstddef>
+#include <string>
 
 //a graph implementation using an adjacency list
 
@@ -19,8 +20,11 @@ class Graph
   public:
     Graph(int); //constructor in which we pass the number of vertices
     GraphVertex<T>* getVertex(int); //get the vertex at the specified index in the array of vertices
+    void setVertexData(T,int); //set the data T for the vertex at index (int)
     SinglyLinkedList<T>* getNeighbors(int); //get the neighbors of the vertex at the index passed to the function
-    void display(); //method to display the graph's contents to the console
+    std::string toString(); //method to display the graph's contents to the console
+    int getVertexCount(); //method to get the count of vertices in the graph
+    void addNeighbor(T,int); //method to add a neighbor to a given vertex by passing it's index
 };
 
 template <class T>
@@ -48,26 +52,55 @@ SinglyLinkedList<T>* Graph<T>::getNeighbors(int i)
 template <class T>
 GraphVertex<T>* Graph<T>::getVertex(int i)
 {
-  //a method to get the vertex at the specified index in the vertex list array
+    //a method to get the vertex at the specified index in the vertex list array
     GraphVertex<T> * vertexPtr = &vertexList[i];
     return vertexPtr;
 }
 
 template <class T>
-void Graph<T>::display()
+std::string Graph<T>::toString()
 {
+  std::string output = "";
   if(vertexCount == 0)
   {
-    std::cout << "[]" << std::endl;
+    output += "[]\n";
   }
 
   else
   {
     for(int i = 0; i < vertexCount; i++)
     {
-      std::cout << vertexList[i].getData() << " -> ";
-      adjacencyList[i].display();
+      output += vertexList[i].toString() +" -> ";
+
+      output += adjacencyList[i].toString() + "\n";
     }
   }
+
+  return output;
 }
 
+template <class T>
+void Graph<T>::setVertexData(T data, int index)
+{
+  //sets the data for the vertex at the passed index
+  //we only set the data if the index passed is valid
+  if(index >= 0 && index < vertexCount)
+  {
+    vertexList[index].setData(data);
+  }
+
+}
+
+template <class T>
+int Graph<T>::getVertexCount()
+{
+  return vertexCount;
+}
+
+template <class T>
+void Graph<T>::addNeighbor(T data, int index)
+{
+  node<T>* newNode = new node<T>();
+  newNode -> setData(data);
+  adjacencyList[index].add(newNode);
+}

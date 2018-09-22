@@ -4,6 +4,8 @@
 #include <iostream>
 #include <cstddef>
 #include "SinglyLinkedListNode.h"
+#include <string>
+#include "../Lib/StringFunctions.h"
 
 template <class T>
 class SinglyLinkedList
@@ -19,7 +21,7 @@ class SinglyLinkedList
     void remove(node<T>*); //remove a node from the list
     node<T>* search(node<T>*); //search the list for a particular node
     bool contains(node<T>*); //determines if the passed node is in the list
-    void display(); //display the linked list's contents
+    std::string toString(); //display the linked list's contents
     int getCount(); //return the number of elements in the list
 
 };
@@ -183,16 +185,21 @@ bool SinglyLinkedList<T>::contains(node<T>* toFind)
 }
 
 template <class T>
-void SinglyLinkedList<T>::display()
+std::string SinglyLinkedList<T>::toString()
 {
+  std::string output = "";
+
   if(count == 0)
-    std::cout << "[]" << std::endl;
+  {
+    output += "[]\n";
+  }
+
 
   else
   {
     //start at the head of the list.
     node<T> *currentNode = head;
-    std::cout << "[";
+    output += "[";
 
     int i = 0;
 
@@ -200,20 +207,21 @@ void SinglyLinkedList<T>::display()
     {
       if(i == count - 1)
       {
-        std::cout << currentNode -> getData();
+        output += libString::to_string(currentNode -> getData());
       }
 
       else
       {
-        std::cout << currentNode -> getData() << ", ";
+        output += libString::to_string(currentNode -> getData()) + ", ";
       }
 
       currentNode = currentNode -> getNext();
     }
 
-    std::cout << "]" <<std::endl;
+    output +=  "]";
   }
 
+  return output;
 }
 
 template <class T>
