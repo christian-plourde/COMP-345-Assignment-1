@@ -1,5 +1,3 @@
-#include <string>
-
 #ifndef DICE_FACES_H
 #define DICE_FACES_H
 
