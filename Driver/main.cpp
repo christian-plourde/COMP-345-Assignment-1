@@ -1,5 +1,6 @@
 #include "../Graph/Graph.h"
 #include "../Dice/Dice.h"
+#include "../Player/Player.h"
 #include <iostream>
 
 int main()
@@ -27,7 +28,11 @@ int main()
 
 
   d1 -> roll();
-  std::cout << d1 -> toString();
+  std::cout << d1 -> toString() << std::endl;
+
+
+  Player* player1 = new Player("Chris");
+  std::cout << player1 -> toString() << std::endl;
 
 
 
