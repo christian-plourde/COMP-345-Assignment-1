@@ -4,6 +4,7 @@
 #include <time.h> //for the random generator to get a random seed
 #include <cstddef>
 #include <string>
+#include "DiceFacesMethods.h"
 
 Dice::Dice()
 {
@@ -62,21 +63,7 @@ std::string Dice::toString()
   for(int i = 0; i<6; i++)
   {
 
-    switch(rolled[i])
-    {
-      case Energy: output += "Energy";
-      break;
-      case Attack: output += "Attack";
-      break;
-      case Destruction: output += "Destruction";
-      break;
-      case Heal: output += "Heal";
-      break;
-      case Celebrity: output += "Celebrity";
-      break;
-      case Ouch: output += "Ouch";
-      break;
-    }
+    output += DiceFacesMethods::DiceFaceToString(rolled[i]);
 
     if(i != 5)
     {

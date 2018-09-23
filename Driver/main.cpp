@@ -29,10 +29,18 @@ int main()
 
   d1 -> roll();
   std::cout << d1 -> toString() << std::endl;
-
-
   Player* player1 = new Player("Chris");
+  player1 -> setCharacter(Sheriff);
   std::cout << player1 -> toString() << std::endl;
+  Player* player2 = new Player("Dan");
+  player2 -> setCharacter(CaptainFish);
+  std::cout << player2 -> toString() << std::endl;
+
+  for(int i = 0; i<6; i++)
+  {
+    enum Characters* chars = Player::getChosenCharacters();
+    std::cout << chars[i] << std::endl;
+  }
 
 
 
