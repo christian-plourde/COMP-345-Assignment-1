@@ -23,6 +23,12 @@ Player::Player(std::string name)
   playerNumber = playerCount; //set the player number to the new count of the number of players
 }
 
+Player::~Player()
+{
+  //class destructor
+  
+}
+
 enum Characters Player::getCharacter()
 {
   return character;

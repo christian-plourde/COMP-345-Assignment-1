@@ -17,6 +17,7 @@ class SinglyLinkedList
 
   public:
     SinglyLinkedList(); //constructor
+    ~SinglyLinkedList(); //destructor
     void add(node<T>*); //add a node to the list
     void remove(node<T>*); //remove a node from the list
     node<T>* search(node<T>*); //search the list for a particular node
@@ -32,6 +33,14 @@ SinglyLinkedList<T>::SinglyLinkedList()
 {
   head = NULL; //set the head of the list to point at nothing
   count = 0; //initially there are no items in the list
+}
+
+template <class T>
+SinglyLinkedList<T>::~SinglyLinkedList()
+{
+  //class destructor
+  //when it is called, we should clear our list
+  this -> clear();
 }
 
 template <class T>

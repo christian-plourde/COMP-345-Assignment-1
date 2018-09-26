@@ -15,10 +15,11 @@ class Graph
     int vertexCount; //the number of vertices the graph has
     SinglyLinkedList<T>* adjacencyList; //an array of linked lists that will have a position for each vertex and hold a linked list
                                           //containing all the vertices it is adjacent to
-    GraphVertex<T>* vertexList;
+    GraphVertex<T>* vertexList; //array of vertices
 
   public:
     Graph(int); //constructor in which we pass the number of vertices
+    ~Graph(); //destructor
     GraphVertex<T>* getVertex(int); //get the vertex at the specified index in the array of vertices
     void setVertexData(T,int); //set the data T for the vertex at index (int)
     SinglyLinkedList<T>* getNeighbors(int); //get the neighbors of the vertex at the index passed to the function
@@ -40,6 +41,15 @@ Graph<T>::Graph(int vertices)
     //set the index of each vertex in the list to i
     vertexList[i].setIndex(i);
   }
+}
+
+template <class T>
+Graph<T>::~Graph()
+{
+  //destructor
+  //when destroying the graph we need to delete the vertex list and the adjacency lists
+  delete[] adjacencyList;
+  delete[] vertexList;
 }
 
 template <class T>

@@ -19,6 +19,7 @@ class Player
 
   public:
     Player(std::string); //a constructor that sets the name of the player
+    ~Player(); //class destructor
     std::string getName(); //a method to get the name of the player
     void setName(std::string); //a method to set the name of the player
     int getHealth(); //a method to get the health of a player

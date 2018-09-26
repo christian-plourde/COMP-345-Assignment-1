@@ -15,6 +15,7 @@ class GraphVertex
 
   public:
     GraphVertex(); //constructor
+    ~GraphVertex(); //destructor
     int getIndex(); //returns the index of the vertex in the graph's array
     void setIndex(int); //change the index of the vertex in the graph's array
     T getData(); //get the data stored in the vertex
@@ -26,6 +27,12 @@ template <class T>
 GraphVertex<T>::GraphVertex()
 {
   //constructor
+}
+
+template <class T>
+GraphVertex<T>::~GraphVertex()
+{
+  //destructor
 }
 
 template <class T>

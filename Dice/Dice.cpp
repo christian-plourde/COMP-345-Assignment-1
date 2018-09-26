@@ -18,6 +18,13 @@ Dice::Dice()
   rolled[5] = Attack;
 }
 
+Dice::~Dice()
+{
+  //destructor
+  //delete all the values in the rolled array
+  delete[] rolled;
+}
+
 void Dice::roll()
 {
   //method to roll the dice.
