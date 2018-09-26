@@ -13,6 +13,7 @@ class node
     node *next;
   public:
     node(); //constructor
+    ~node(); //destructor
     T getData();
     void setData(T);
     node<T>* getNext();
@@ -24,6 +25,12 @@ template <class T>
 node<T>::node()
 {
   //constructor
+}
+
+template <class T>
+node<T>::~node()
+{
+  //the destructor for the node class
 }
 
 template <class T>

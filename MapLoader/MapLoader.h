@@ -8,9 +8,15 @@
 
 class MapLoader
 {
-  private:
-    std::string filePath; //the path to the file containing the map
+  public:
+    static Graph<std::string>* loadMap(); //loads a .map file from the passed file path into a graph object
+    static void setFilePath(std::string);
+    static std::string getFilePath();
 
+  private:
+    static bool fileIsValid(); //check if the file at the passed file path is valid or not
+    static int nodeCount; //this is required for creating the graph as we need to know how many nodes are in it
+    static std::string filePath; //the file path
 };
 
 #endif

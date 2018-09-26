@@ -2,6 +2,7 @@
 #include "../Dice/Dice.h"
 #include "../Player/Player.h"
 #include <iostream>
+#include <string>
 
 int main()
 {

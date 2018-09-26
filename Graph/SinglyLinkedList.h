@@ -23,6 +23,7 @@ class SinglyLinkedList
     bool contains(node<T>*); //determines if the passed node is in the list
     std::string toString(); //display the linked list's contents
     int getCount(); //return the number of elements in the list
+    void clear(); //clears all the content of the linked list
 
 };
 
@@ -228,6 +229,23 @@ template <class T>
 int SinglyLinkedList<T>::getCount()
 {
   return count;
+}
+
+template <class T>
+void SinglyLinkedList<T>::clear()
+{
+  node<T>* pointer = head;
+  node<T>* temp = pointer -> getNext();
+
+  while (temp != NULL)
+  {
+    delete pointer;
+    pointer = temp;
+    temp = temp -> getNext();
+  }
+
+  head = NULL;
+
 }
 
 #endif
