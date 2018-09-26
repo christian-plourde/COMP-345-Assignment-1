@@ -15,6 +15,7 @@ class Player
     int health; //the number of health points the player has
     int energy; //the number of energy cubes the player has
     int victoryPoints; //the number of victoryPoints the player has
+    int zone; //the zone that the player is currently in
     void initializeChosenCharacters(); //a method to initialize the chosen characters when beginning the game
 
   public:
@@ -26,7 +27,7 @@ class Player
     void setHealth(int); //a method to set the health of a player
     int getVictoryPoints(); //a method to get the number of victory points a player has
     void setVictoryPoints(int); //a method to set the number of victoryPoints a player has
-    void setCharacter();
+    void setCharacter(); //set the character that the player is playing as
     std::string toString(); //returns a string containing information about the current status of the player
     enum Characters getCharacter(); //get the character that the player is playing as
     void setCharacter(enum Characters); //set the character that the player is playing as
@@ -35,6 +36,9 @@ class Player
     void setPlayerNumber(int); //set the number of the player: player1, player2, etc.
     int getPlayerNumber(); //get the number of the player: player1,player 2, etc.
     static enum Characters* getChosenCharacters(); //gets a pointer to an array holding the chosen characters
+    int getZone(); //return the zone that the player is currently in as an array index in graph. to get the name of the zone, call a method from graph
+                   //with the returned integer
+    void setZone(int); //set the zone that the player should now be in.
 };
 
 #endif

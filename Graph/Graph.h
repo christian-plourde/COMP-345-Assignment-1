@@ -73,7 +73,7 @@ std::string Graph<T>::toString()
   std::string output = "";
   if(vertexCount == 0)
   {
-    output += "[]";
+    output += "[]\n";
   }
 
   else
@@ -82,7 +82,7 @@ std::string Graph<T>::toString()
     {
       output += vertexList[i].toString() +" -> ";
 
-      output += adjacencyList[i].toString();
+      output += adjacencyList[i].toString() + "\n";
     }
   }
 

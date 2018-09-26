@@ -21,12 +21,14 @@ Player::Player(std::string name)
   this -> victoryPoints = 0; //start the game with no victory points
   playerCount++; //increment the number of players in the game
   playerNumber = playerCount; //set the player number to the new count of the number of players
+  //we need to set the start zone of the player
+  zone = playerNumber; //arbitrarily set it to the playerNumber, it will be changed after anyways
 }
 
 Player::~Player()
 {
   //class destructor
-  
+
 }
 
 enum Characters Player::getCharacter()
@@ -74,6 +76,7 @@ std::string Player::toString()
   output += "\n\tHealth Points: " + libString::to_string(health);
   output += "\n\tVictory Points: " + libString::to_string(victoryPoints);
   output += "\n\tEnergy Cubes: " + libString::to_string(energy);
+  output += "\n\tZone: " + libString::to_string(zone);
   return output;
 }
 
@@ -164,5 +167,15 @@ void Player::initializeChosenCharacters()
   {
     chosenCharacters[i] = None;
   }
+}
+
+int Player::getZone()
+{
+  return zone;
+}
+
+void Player::setZone(int newZone)
+{
+  zone = newZone; //check for if the zone number is compatible must be checked by the calling method
 }
 
