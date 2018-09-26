@@ -7,6 +7,6 @@ int main()
 
   std::string t = MapLoader::getFilePath();
 
-  MapLoader::loadMap();
+  std::cout << MapLoader::loadMap() -> toString() << std::endl;
   return 0;
 }

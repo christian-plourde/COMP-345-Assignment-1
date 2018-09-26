@@ -26,7 +26,48 @@ Graph<std::string>* MapLoader::loadMap()
     std::cout << "Setting up the game board..." << std::endl;
 
     Graph<std::string>* graph = new Graph<std::string>(MapLoader::nodeCount);
-    std::cout << graph -> toString() << std::endl;
+
+    //we need to reopen the file
+
+    std::ifstream input; //the input stream associated to out file
+    input.open(MapLoader::filePath.c_str()); //try opening the file
+
+    //we already know it is valid so we can start reading right away
+    std::string line = "";
+    std::string nodeName = "";
+    int graphIndex = 0;
+
+    //while we still have readable lines
+    while(input >> line)
+    {
+      //first get the name of the node
+      if(line == "@node")
+      {
+        //wipe the nodeName clean
+        nodeName = "";
+
+        //if the line is the node declaration
+        //then go to the next line and the line after that, where the name field is
+        input >> line;
+        input >> line;
+
+        //now that we are at the name field we read until we hit the first adjacent node
+        while(input >> line && line != "adjacent:")
+        {
+          nodeName = nodeName + line + " ";
+        }
+
+        //since we add a space at the end, we need to trim the right side
+        nodeName.erase(nodeName.find_last_not_of(" \n\r\t")+1);
+        //now that we have the name of the node, we need to add it to our graph
+        graph -> setVertexData(nodeName,graphIndex);
+
+        //now that we have added the name of the node we need to add every node it is adjacent to to its adjacency list
+        graphIndex++;
+      }
+    }
+
+    return graph; //return the graph containing the game board
   }
 
   else
@@ -89,6 +130,7 @@ bool MapLoader::fileIsValid()
       lineNumber++;
       if(line != "{")
       {
+        input.close();
         std::cout << "Missing opening brace in file " << filePath << " near line " << lineNumber << "." << std::endl;
         return false;
       }
@@ -98,6 +140,7 @@ bool MapLoader::fileIsValid()
       lineNumber++;
       if(line != "name:")
       {
+        input.close();
         std::cout << "Missing node name field in file " << filePath << " near line " << lineNumber << "." << std::endl;
         return false; //if the next line does not contain a name field then we return false
       }
@@ -116,6 +159,7 @@ bool MapLoader::fileIsValid()
       //if by the end of the loop the adjacent count is still zero, then the file is not valid
       if(adjacentCount == 0)
       {
+        input.close();
         std::cout << "No adjacent nodes found in " << filePath << " near line " << lineNumber << "." << std::endl;
         return false;
       }
@@ -123,6 +167,7 @@ bool MapLoader::fileIsValid()
       //now that we have reached the last adjacent node, check if the current line contains a "}"
       if(line != "}")
       {
+        input.close();
         std::cout << "Missing closing brace in file " << filePath << " near line " << lineNumber << "." << std::endl;
         return false;
       }
@@ -135,11 +180,13 @@ bool MapLoader::fileIsValid()
   //as long as there is more than one node
   if(nodeCount > 0)
   {
+    input.close();
     MapLoader::nodeCount = nodeCount;
     return true;
   }
 
   //if there was not more than one node, then return false;
+  input.close();
   return false;
 
 }
