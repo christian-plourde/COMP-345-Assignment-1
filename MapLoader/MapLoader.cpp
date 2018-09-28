@@ -63,6 +63,20 @@ Graph<std::string>* MapLoader::loadMap()
         graph -> setVertexData(nodeName,graphIndex);
 
         //now that we have added the name of the node we need to add every node it is adjacent to to its adjacency list
+
+        std::string newNeighbor = ""; //the string that will hold the name of the new neighbor to the node
+
+
+        while(input >> line && line != "adjacent:")
+        {
+          newNeighbor += line + " ";
+        }
+
+        newNeighbor.erase(newNeighbor.find_last_not_of(" \n\r\t") + 1); //remove the right space
+        graph -> addNeighbor(newNeighbor, graphIndex);
+
+
+
         graphIndex++;
       }
     }
