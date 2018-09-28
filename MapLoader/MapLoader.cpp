@@ -66,16 +66,23 @@ Graph<std::string>* MapLoader::loadMap()
 
         std::string newNeighbor = ""; //the string that will hold the name of the new neighbor to the node
 
-
-        while(input >> line && line != "adjacent:")
+        //while we have not reached a closing brace, keep reading
+        while(input >> line && line != "}")
         {
-          newNeighbor += line + " ";
+          //if the line contains the word adjacent, then skip that word
+          if(line == "adjacent:")
+          {
+            newNeighbor.erase(newNeighbor.find_last_not_of(" \n\r\t")+1);
+            graph -> addNeighbor(newNeighbor, graphIndex); //add the new neighbor
+            newNeighbor = ""; //wipe the newNeighbor field and then continue the iteration
+            continue;
+          }
+
+          else
+          {
+            newNeighbor += line + " ";
+          }
         }
-
-        newNeighbor.erase(newNeighbor.find_last_not_of(" \n\r\t") + 1); //remove the right space
-        graph -> addNeighbor(newNeighbor, graphIndex);
-
-
 
         graphIndex++;
       }
