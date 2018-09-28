@@ -7,6 +7,25 @@
 int Player::playerCount = 0;
 enum Characters* Player::chosenCharacters = new Characters[6];
 
+//default constructor for use in player arrays
+Player::Player()
+{
+  //if the playerCount is 0 then initialize the array of chosenCharacters
+  if(playerCount == 0)
+  {
+    Player::initializeChosenCharacters();
+  }
+
+  this -> name = "Player"; //set the name of the player
+  this -> health = 10; //start the game with 10 health points
+  this -> energy = 0; //start the game with 0 energy cubes
+  this -> victoryPoints = 0; //start the game with no victory points
+  playerCount++; //increment the number of players in the game
+  playerNumber = playerCount; //set the player number to the current player count
+  //we need to set the start zone of the player
+  zone = playerNumber; //arbitrarily set it to the playerNumber, it will be changed after anyways
+}
+
 Player::Player(std::string name)
 {
   //if the playerCount is 0 then initialize the array of chosenCharacters
@@ -20,7 +39,7 @@ Player::Player(std::string name)
   this -> energy = 0; //start the game with 0 energy cubes
   this -> victoryPoints = 0; //start the game with no victory points
   playerCount++; //increment the number of players in the game
-  playerNumber = playerCount; //set the player number to the new count of the number of players
+  playerNumber = playerCount; //set the player number to the current player count
   //we need to set the start zone of the player
   zone = playerNumber; //arbitrarily set it to the playerNumber, it will be changed after anyways
 }
@@ -71,7 +90,7 @@ std::string Player::toString()
 {
   std::string output = "";
   output += "Player Name: " + name;
-  output += "\n\tPlayer: " + libString::to_string(playerCount);
+  output += "\n\tPlayer: " + libString::to_string(playerNumber);
   output += "\n\tChosen Character: " + CharacterMethods::characterToString(this -> character);
   output += "\n\tHealth Points: " + libString::to_string(health);
   output += "\n\tVictory Points: " + libString::to_string(victoryPoints);
@@ -148,16 +167,10 @@ int Player::getPlayerNumber()
 
 void Player::setPlayerNumber(int number)
 {
-  //if the number is between 2 and 6 then it is valid
-  if(number >= 2 && number <= 6)
+  //if the number is between 0 and 6 then it is valid
+  if(number >= 0 && number <= 6)
   {
     playerNumber = number;
-  }
-
-  //otherwise, we throw an exception
-  else
-  {
-    throw number;
   }
 }
 

@@ -19,6 +19,7 @@ class Player
     void initializeChosenCharacters(); //a method to initialize the chosen characters when beginning the game
 
   public:
+    Player(); //default constructor
     Player(std::string); //a constructor that sets the name of the player
     ~Player(); //class destructor
     std::string getName(); //a method to get the name of the player
