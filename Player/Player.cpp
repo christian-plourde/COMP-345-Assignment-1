@@ -148,9 +148,16 @@ int Player::getPlayerNumber()
 
 void Player::setPlayerNumber(int number)
 {
-  if(number >= 0 && number <= 6)
+  //if the number is between 2 and 6 then it is valid
+  if(number >= 2 && number <= 6)
   {
     playerNumber = number;
+  }
+
+  //otherwise, we throw an exception
+  else
+  {
+    throw number;
   }
 }
 
