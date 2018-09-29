@@ -45,6 +45,5 @@ int main()
 
   std::cout << "Ready to begin the game!" << std::endl; //ready to start!
 
-
   return 0;
 }
