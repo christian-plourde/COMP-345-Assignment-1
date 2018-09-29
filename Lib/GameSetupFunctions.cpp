@@ -42,7 +42,7 @@ Player* GameSetupFunctions::initializePlayers(int numberOfPlayers)
     std::cout << "Player " << (i + 1) << " please enter your name: "; //let the player enter his name
     std::cin >> playerName; //get name input
     players[i].setName(playerName); //set the name of the player
-    std::cout << "Player " << (i + 1) << " please choose your character: " << std::endl; //now the player must choose his character
+    std::cout << players[i].getName() << "," << " please choose your character: " << std::endl; //now the player must choose his character
 
     int characterChoice = 1; //simply to print a number of selecting that character
 
@@ -64,6 +64,7 @@ Player* GameSetupFunctions::initializePlayers(int numberOfPlayers)
       try
       {
         //player enters the character number he wants
+        std::cout << "Enter the number for the character you would like to be: ";
         std::cin >> characterChosen;
 
         //if the number is negative or greater than 6, then that value is not valid and we throw an exception
@@ -120,10 +121,69 @@ void GameSetupFunctions::setPlayerStartZones(int playerCount, Player* players, G
     //for each player, list all the zones that are available in the graph and allow him to choose the position that he wants
     //assuming that it is valid
 
+    int vertexCount = 1; //the number that will be placed next to the vertex when giving the player the choice of his start vertex
+
+    //now that all the vertices have been displayed, we need to allow the player to choose the vertex where he wants to start
+    std::cout << players[i].getName() << "," << " please select the location where you would like your adventure to begin: " << std::endl;
+
     for(int j = 0; j < graph -> getVertexCount(); j++)
     {
-      std::cout << graph -> getVertex(j) -> toString() << std::endl;
+      //output the vertex that the player can choose from
+      std::cout << vertexCount << ". " << graph -> getVertex(j) -> toString() << std::endl;
+      vertexCount++; //increment the vertex count so that it is displayed properly in the next iteration
     }
+
+    //we need to check that the vertex he has selected is valid
+    bool startIsValid = false; //this will keep track of whether or not he has selected a valid vertex
+
+    while(!startIsValid)
+    {
+      int startVertex = 0; //the vertex where the player wants to begin
+      bool vertexOutOfBounds = false; //a check to see if the vertex is out of bounds
+      bool vertexIsInMaster = false; //a check to see if the vertex is in the master zone (i.e. manhattan)
+
+      try
+      {
+        std::cout << "Please enter a number corresponding to the location you would like to start at: ";
+        std::cin >> startVertex; //place the input in the startVertex variable
+
+        if(startVertex < 1 || startVertex > graph -> getVertexCount())
+        {
+          //if the chosen vertex is outside of the bounds that are acceptable, then throw an error
+          vertexOutOfBounds = true; //the vertex is out of bounds
+          throw startVertex;
+        }
+
+        if(graph -> getVertex(startVertex) -> getData() == "master" || graph -> getVertex(startVertex) -> getData() == "inner")
+        {
+          //if the requested vertex is a master or inner type vertex that mean it is either manhattan or one of its inner zones
+          //the rules state that a player cannot start in manhattan, and therefore these zones are invalid as start zones
+          vertexIsInMaster = true;
+          throw startVertex;
+        }
+
+        //if we made it here without throwing an exception, then our location is valid
+
+        players[i].setZone(startVertex - 1); //set the zone to the one indicated, minus one since in our choices we start at 1
+
+        startIsValid = true; //the user has entered a valid start point
+      }
+
+      catch(int e)
+      {
+        if(vertexOutOfBounds)
+        {
+          std::cout << "The desired location is not within the game boundaries! Please try again..." << std::endl;
+        }
+
+        if(vertexIsInMaster)
+        {
+          //if the vertex is within the master zone, i.e. manhattan, it is not valid
+          std::cout << "The desired location is within the master zone! Please try again..." << std::endl;
+        }
+      }
+    }
+
   }
 
 }

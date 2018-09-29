@@ -41,13 +41,9 @@ int main()
   //now that we have set the number of players playing the game it is time to initialize their player characters
   Player* players = GameSetupFunctions::initializePlayers(playerCount);
 
-  for(int i = 0; i < playerCount; i++)
-  {
-    std::cout << players[i].toString() << std::endl;
-  }
+  GameSetupFunctions::setPlayerStartZones(playerCount, players, graph); //set the zones where the players will begin
 
-  GameSetupFunctions::setPlayerStartZones(playerCount, players, graph);
-
+  std::cout << "Ready to begin the game!" << std::endl; //ready to start!
 
 
   return 0;
