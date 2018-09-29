@@ -1,3 +1,6 @@
+#ifndef GRAPH_H
+#define GRAPH_H
+
 #include "SinglyLinkedList.h"
 #include <vector>
 #include "GraphVertex.h"
@@ -114,3 +117,5 @@ void Graph<T>::addNeighbor(T data, int index)
   newNode -> setData(data);
   adjacencyList[index].add(newNode);
 }
+
+#endif

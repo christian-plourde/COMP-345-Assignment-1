@@ -1,7 +1,5 @@
 #include <string>
 #include "Player.h"
-#include "../Lib/StringFunctions.h"
-#include "CharacterMethods.h"
 
 //declaring the static variables
 int Player::playerCount = 0;

@@ -37,7 +37,23 @@ Player* GameSetupFunctions::initializePlayers(int numberOfPlayers)
     players[i].setName(playerName); //set the name of the player
     std::cout << "Player " << (i + 1) << " please choose your character: " << std::endl; //now the player must choose his character
 
-    
+    int characterChoice = 1; //simply to print a number of selecting that character
+    enum Characters character = CaptainFish;
+
+    for(int i = 0; i < 6; i++)
+    {
+      //output the characters that are available
+
+      if(Player::getChosenCharacters()[i] == None)
+      {
+        //if the character in the array at the current iteration is non-existant
+        //then we output the corresponding character in the character enum
+        std::cout << characterChoice << ". " << CharacterMethods::characterToString(static_cast<Characters>(i)) << std::endl;
+        characterChoice++;
+      }
+
+    }
+
   }
 
   return players;

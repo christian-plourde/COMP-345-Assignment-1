@@ -1,10 +1,11 @@
 //this file contains some functions that are used to set up a new game
+#ifndef GAME_SETUP_FUNCTIONS_H
+#define GAME_SETUP_FUNCTIONS_H
+
 #include <iostream>
 #include "../Player/Player.h"
 #include "StringFunctions.h"
-
-#ifndef GAME_SETUP_FUNCTIONS_H
-#define GAME_SETUP_FUNCTIONS_H
+#include "../Player/CharacterMethods.h"
 
 namespace GameSetupFunctions
 {

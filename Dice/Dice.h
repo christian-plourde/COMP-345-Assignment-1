@@ -1,8 +1,8 @@
-#include "DiceFaces.h"
-#include <string>
-
 #ifndef DICE_H
 #define DICE_H
+
+#include "DiceFaces.h"
+#include <string>
 
 class Dice
 {

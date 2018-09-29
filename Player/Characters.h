@@ -1,8 +1,9 @@
 //this is an enumeration of the characters in the game
-#include <string>
 
 #ifndef CHARACTERS_H
 #define CHARACTERS_H
+
+#include <string>
 
 enum Characters
 {

@@ -1,9 +1,9 @@
 //fixing the issue with the toString method
-#include <string>
-#include <sstream>
-
 #ifndef STRING_FUNCTIONS_H
 #define STRING_FUNCTIONS_H
+
+#include <string>
+#include <sstream>
 
 namespace libString
 {

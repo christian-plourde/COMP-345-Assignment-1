@@ -1,8 +1,10 @@
-#include <string>
-#include "Characters.h"
-
 #ifndef PLAYER_H
 #define PLAYER_H
+
+#include <string>
+#include "Characters.h"
+#include "../Lib/StringFunctions.h"
+#include "CharacterMethods.h"
 
 class Player
 {
