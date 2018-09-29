@@ -11,6 +11,7 @@ class GraphVertex
   //a class for the vertices of the graph data structure
   private:
     int index; //the vertices index in the graph's array
+    std::string name; //the name of the vertex
     T data; //the data stored in the vertex
 
   public:
@@ -18,6 +19,8 @@ class GraphVertex
     ~GraphVertex(); //destructor
     int getIndex(); //returns the index of the vertex in the graph's array
     void setIndex(int); //change the index of the vertex in the graph's array
+    std::string getName(); //get the name of the vertex
+    void setName(std::string); //set the name of the vertex
     T getData(); //get the data stored in the vertex
     void setData(T); //set the data stored in the vertex
     std::string toString(); //displays the data stored in the vertex
@@ -60,11 +63,15 @@ void GraphVertex<T>::setData(T newData)
 }
 
 template <class T>
+void GraphVertex<T>::setName(std::string newName)
+{
+  name = newName;
+}
+
+template <class T>
 std::string GraphVertex<T>::toString()
 {
-  std::string output = "";
-  output += libString::to_string(data);
-  return output;
+  return name;
 }
 
 #endif

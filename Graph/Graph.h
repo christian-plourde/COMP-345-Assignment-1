@@ -25,6 +25,7 @@ class Graph
     ~Graph(); //destructor
     GraphVertex<T>* getVertex(int); //get the vertex at the specified index in the array of vertices
     void setVertexData(T,int); //set the data T for the vertex at index (int)
+    void setVertexName(std::string, int); //set the name of the vertex at index (int)
     SinglyLinkedList<T>* getNeighbors(int); //get the neighbors of the vertex at the index passed to the function
     std::string toString(); //method to display the graph's contents to the console
     int getVertexCount(); //method to get the count of vertices in the graph
@@ -102,6 +103,16 @@ void Graph<T>::setVertexData(T data, int index)
     vertexList[index].setData(data);
   }
 
+}
+
+template <class T>
+void Graph<T>::setVertexName(std::string newName, int index)
+{
+  //set the name for the vertex at the passed index if the index is valid
+  if(index >= 0 && index < vertexCount)
+  {
+    vertexList[index].setName(newName);
+  }
 }
 
 template <class T>

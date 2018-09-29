@@ -14,7 +14,7 @@ class Dice
   public:
     Dice(); //default constructor
     ~Dice(); //destructor
-    void roll(); //method to roll the dice
+    void roll(); //method to roll the dice (all of them)
     enum DiceFaces* getResult(); //method to get the result of the dice roll
     std::string toString(); //method to display the result of the roll
 

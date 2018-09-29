@@ -20,6 +20,8 @@ std::string MapLoader::getFilePath()
 Graph<std::string>* MapLoader::loadMap()
 {
   //method to load the map file into a graph object
+  //IMPORTANT!!! The master node, i.e. manhattan, must appear first in the file
+
   if(fileIsValid())
   {
     //if the file was valid then we set up the graph object by reading all of the data in the file and assigning nodes
@@ -35,6 +37,7 @@ Graph<std::string>* MapLoader::loadMap()
     //we already know it is valid so we can start reading right away
     std::string line = "";
     std::string nodeName = "";
+    std::string nodeType = "";
     int graphIndex = 0;
 
     //while we still have readable lines
@@ -43,24 +46,32 @@ Graph<std::string>* MapLoader::loadMap()
       //first get the name of the node
       if(line == "@node")
       {
-        //wipe the nodeName clean
+        //wipe the nodeName and nodeType clean
         nodeName = "";
+        nodeType = "";
 
         //if the line is the node declaration
         //then go to the next line and the line after that, where the name field is
         input >> line;
         input >> line;
 
-        //now that we are at the name field we read until we hit the first adjacent node
-        while(input >> line && line != "adjacent:")
+        //now that we are at the name field we read until we hit adjacent node
+        while(input >> line && line != "type:")
         {
           nodeName = nodeName + line + " ";
+        }
+
+        //now we need to get the type of node that it is
+        while(input >> line && line != "adjacent:")
+        {
+          nodeType = nodeType + line;
         }
 
         //since we add a space at the end, we need to trim the right side
         nodeName.erase(nodeName.find_last_not_of(" \n\r\t")+1);
         //now that we have the name of the node, we need to add it to our graph
-        graph -> setVertexData(nodeName,graphIndex);
+        graph -> setVertexName(nodeName, graphIndex);
+        graph -> setVertexData(nodeType, graphIndex);
 
         //now that we have added the name of the node we need to add every node it is adjacent to to its adjacency list
 
@@ -142,6 +153,7 @@ bool MapLoader::fileIsValid()
   while(input >> line) //while the input stream still has lines to read keep reading
   {
     lineNumber++;
+
     if(line == "@node") //if the line is equal to "@node", this is the inclusion of another node
     {
       nodeCount++;
@@ -164,6 +176,29 @@ bool MapLoader::fileIsValid()
         input.close();
         std::cout << "Missing node name field in file " << filePath << " near line " << lineNumber << "." << std::endl;
         return false; //if the next line does not contain a name field then we return false
+      }
+
+      //then check if the line after that contains a type field
+      while(line != "type:" && !(line == "adjacent:" || line == "}"))
+      {
+        input >> line;
+        lineNumber++;
+      }
+
+      if(line != "type:")
+      {
+        input.close();
+        std::cout << "Missing type field in file " << filePath << " near line " << lineNumber << "." << std::endl;
+        return false;
+      }
+
+      //then check that the type is valid
+      input >> line;
+      lineNumber++;
+      if(!(line == "master" || line == "inner" || line == "outer"))
+      {
+        input.close();
+        std::cout << "Invalid type field in file " << filePath << " near line " << lineNumber << "." << std::endl;
       }
 
       //now we need to make sure that the node has at least one adjacent node to make sure that the graph will be a connected graph
