@@ -1,4 +1,7 @@
 //this provides a test for the dice rolling facility
+//IMPORTANT!!! The methods for rolling select dice are tested in detail in the player tests, since it is the player
+//class that will be using it. This simply tests that we can roll 6 dice, with proper checking when entering data and
+//that the distribution in uniform and that each face is equally likely to come up
 #include <iostream>
 #include "../../Dice/Dice.h"
 #include <string>
@@ -18,7 +21,7 @@ int main()
   int ouchCount = 0;
   int otherCount = 0;
 
-  for(int i = 0; i<10000; i++)
+  for(int i = 0; i<1000000; i++)
   {
     //roll the dice
     dice -> roll();
