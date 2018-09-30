@@ -30,13 +30,11 @@ void Dice::roll()
   //method to roll the dice.
   //we need to create a random number generator
   std::cout << "Rolling the dice..." << std::endl;
-  int randomNumber; //the random number we will use to set the dice rolls
-  srand(time(NULL)); //set the seed of the random number generator to a random seed
+  int randomNumber = 0; //the random number we will use to set the dice rolls
 
   for(int i = 0; i<6; i++)
   {
-    //we need to generate 6 random numbers
-    randomNumber = rand()%6;
+
     enum DiceFaces face; //the face of the dice
 
     //set the face of the dice properly
@@ -61,6 +59,12 @@ void Dice::roll()
 
   }
 
+}
+
+enum DiceFaces* Dice::getResult()
+{
+  //this method returns the result of the last roll
+  return rolled;
 }
 
 std::string Dice::toString()
