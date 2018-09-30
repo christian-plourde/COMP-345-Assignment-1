@@ -1,14 +1,13 @@
 //this provides a test for the dice rolling facility
 #include <iostream>
 #include "../../Dice/Dice.h"
+#include <string>
 
 int main()
 {
   //create a new dice
   std::cout << "Creating a new dice object..." << std::endl;
   Dice* dice = new Dice();
-
-  std::cout << "Now we will roll the dice 5000 times and display the results, as well as the count for each face that comes up..." << std::endl;
 
   //the counts for each face that comes up
   int energyCount = 0;
@@ -19,8 +18,7 @@ int main()
   int ouchCount = 0;
   int otherCount = 0;
 
-
-  for(int i = 0; i < 5; i++)
+  for(int i = 0; i<10000; i++)
   {
     //roll the dice
     dice -> roll();
@@ -70,5 +68,15 @@ int main()
 
     }
   }
+
+  //now we should output the count of each face to see if it is uniformly distributed
+
+  std::cout << "Energy Count: " << energyCount << std::endl;
+  std::cout << "Attack Count: " << attackCount << std::endl;
+  std::cout << "Destruction Count: " << destructionCount << std::endl;
+  std::cout << "Heal Count: " << healCount << std::endl;
+  std::cout << "Celebrity Count: " << celebrityCount << std::endl;
+  std::cout << "Ouch Count: " << ouchCount << std::endl;
+
 
 }

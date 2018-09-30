@@ -8,15 +8,19 @@ class RandomNumberGenerator
   //based on a linear congruential PRNG that I originally created in java
 
   private:
-    long seed; //the seed for the random number generator
-    static long MULTIPLIER;
-    static long CONSTANT;
-    static long MODULUS;
+    long long seed; //the seed for the random number generator
+    static long long MULTIPLIER; //the multiplier for the PRNG
+    static long long CONSTANT; //the constant for the PRNG
+    static long long MODULUS; //the modulus for the PRNG
+    static long long power(int,int); //this returns the power of a base to an exponent
 
   public:
     RandomNumberGenerator(); //default constructor
-    RandomNumberGenerator(long); //constructor that accepts an initial seed value
+    RandomNumberGenerator(long long); //constructor that accepts an initial seed value
     ~RandomNumberGenerator(); //destructor
+    void setSeed(long long); //set the seed of the PRNG
+    long* randomGen(int); //creates an array of long random numbers of the size specified
+    long* randomGen(int,int,int); //creates an array of long random numbers of size specified between two bounds
 };
 
 #endif

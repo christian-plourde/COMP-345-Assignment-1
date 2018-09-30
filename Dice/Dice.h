@@ -2,6 +2,7 @@
 #define DICE_H
 
 #include "DiceFaces.h"
+#include "../Lib/RandomNumberGenerator/RandomNumberGenerator.h"
 #include <string>
 
 class Dice
@@ -9,7 +10,6 @@ class Dice
   //the dice class
   private:
     enum DiceFaces* rolled; //an array of size 6 holding the result of the dice roll
-
 
   public:
     Dice(); //default constructor

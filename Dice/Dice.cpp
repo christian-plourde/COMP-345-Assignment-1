@@ -1,7 +1,5 @@
 #include "Dice.h"
 #include <iostream>
-#include <stdlib.h> //for the random numbers generation
-#include <time.h> //for the random generator to get a random seed
 #include <cstddef>
 #include <string>
 #include "DiceFacesMethods.h"
@@ -30,15 +28,17 @@ void Dice::roll()
   //method to roll the dice.
   //we need to create a random number generator
   std::cout << "Rolling the dice..." << std::endl;
-  int randomNumber = 0; //the random number we will use to set the dice rolls
+
+  //we need to generate 6 random numbers
+  RandomNumberGenerator* r = new RandomNumberGenerator(); //my random number generator
+  long* randomNumbers = r -> randomGen(6,0,6);
 
   for(int i = 0; i<6; i++)
   {
-
-    enum DiceFaces face; //the face of the dice
+    enum DiceFaces face = Attack; //the face of the dice
 
     //set the face of the dice properly
-    switch(randomNumber)
+    switch(randomNumbers[i])
     {
       case 0: face = Energy;
       break;
@@ -58,6 +58,12 @@ void Dice::roll()
     rolled[i] = face;
 
   }
+
+  //now that we no longer need the random number generator we should delete its resources and also the random number array
+  delete r;
+  r = NULL;
+  delete[] randomNumbers;
+  randomNumbers = NULL;
 
 }
 
