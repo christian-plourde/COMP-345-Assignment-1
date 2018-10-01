@@ -1,4 +1,5 @@
 #include <string>
+#include <iostream>
 #include "Player.h"
 
 //declaring the static variables
@@ -22,6 +23,7 @@ Player::Player()
   playerNumber = playerCount; //set the player number to the current player count
   //we need to set the start zone of the player
   zone = playerNumber; //arbitrarily set it to the playerNumber, it will be changed after anyways
+  dice = new Dice(); //the dice that the player will be using
 }
 
 Player::Player(std::string name)
@@ -40,12 +42,15 @@ Player::Player(std::string name)
   playerNumber = playerCount; //set the player number to the current player count
   //we need to set the start zone of the player
   zone = playerNumber; //arbitrarily set it to the playerNumber, it will be changed after anyways
+  dice = new Dice(); //the dice that the player will be using
 }
 
 Player::~Player()
 {
   //class destructor
-
+  //make sure the dice object is deleted
+  delete dice;
+  dice = NULL;
 }
 
 enum Characters Player::getCharacter()
@@ -195,5 +200,78 @@ int Player::getZone()
 void Player::setZone(int newZone)
 {
   zone = newZone; //check for if the zone number is compatible must be checked by the calling method
+}
+
+Dice* Player::getDice()
+{
+  return dice;
+}
+
+void Player::rollDice()
+{
+  //a method to roll the dice that the player is using as per the rules of the game
+  //on the first roll, which is mandatory, all dice must be rolled
+
+  int rollCount = 0; //this will track the number of times that the dice have been rolled
+
+  //the player will roll once regardless of the situation
+  dice -> roll();
+  rollCount++;
+  std::cout << dice -> toString() << std::endl;
+
+  //now that the dice has been rolled once, we need to ask the player if he would like to roll again
+
+  bool badInput = true; //check to see it the input was either Y or N
+  std::string answer;
+
+  while(rollCount < 3)
+  {
+    std::cout << "Would you like to roll again? (Y/N): ";
+
+    while(badInput)
+    {
+      //the user enters something
+      try
+      {
+        std::cin >> answer;
+
+        if(!(answer == "Y" || answer == "N"))
+        {
+          //if the answer was not Y or N, then we throw an exception
+          throw answer;
+        }
+
+        //if the user entered Y or N, then badInput becomes false
+        badInput = false;
+
+      }
+
+      catch(std::string s)
+      {
+        //let the user see what his mistake was and prompt him once again
+        std::cout << "The answer " << s << " is not valid. Please enter either Y or N: ";
+      }
+
+    }
+
+    //since we know that we are still in the allowed rolls count, there are two options.
+    //if the user said N, then we simply break and that is it
+    if(answer == "N")
+    {
+      //output the result of the dice and exit
+      std::cout << name << ", your final roll result is: " << dice -> toString() << std::endl;
+      break;
+    }
+
+    if(answer == "Y")
+    {
+      //if the user answered yes, then we need to ask him to roll selected dice
+      dice -> rollSelectedDice();
+      std::cout << name << ", the result of your roll was: " << dice -> toString() << std::endl;
+      rollCount++; //add one to the number of times the dice was rolled
+      badInput = true; //we want the user to be prompted again for the third reroll
+    }
+  }
+
 }
 

@@ -5,6 +5,7 @@
 #include "Characters.h"
 #include "../Lib/StringFunctions.h"
 #include "CharacterMethods.h"
+#include "../Dice/Dice.h" //each player should have a dice object
 
 class Player
 {
@@ -19,6 +20,7 @@ class Player
     int victoryPoints; //the number of victoryPoints the player has
     int zone; //the zone that the player is currently in
     void initializeChosenCharacters(); //a method to initialize the chosen characters when beginning the game
+    Dice* dice; //the dice that the player will be rolling
 
   public:
     Player(); //default constructor
@@ -42,6 +44,8 @@ class Player
     int getZone(); //return the zone that the player is currently in as an array index in graph. to get the name of the zone, call a method from graph
                    //with the returned integer
     void setZone(int); //set the zone that the player should now be in.
+    Dice* getDice(); //return a pointer to the dice object that this player is using
+    void rollDice(); //a method for the player to roll the dice based on the rules of the game 
 };
 
 #endif
