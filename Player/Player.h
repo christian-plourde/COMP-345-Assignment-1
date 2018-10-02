@@ -45,7 +45,8 @@ class Player
                    //with the returned integer
     void setZone(int); //set the zone that the player should now be in.
     Dice* getDice(); //return a pointer to the dice object that this player is using
-    void rollDice(); //a method for the player to roll the dice based on the rules of the game 
+    void rollDice(); //a method for the player to roll the dice based on the rules of the game
+    void move(); //a method to allow the player to move from one region to another
 };
 
 #endif

@@ -275,3 +275,10 @@ void Player::rollDice()
 
 }
 
+void Player::move()
+{
+  //this method will allow the player to move from one location to another in the graph, as long as it is possible
+
+  
+}
+

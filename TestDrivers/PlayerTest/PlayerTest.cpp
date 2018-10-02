@@ -1,6 +1,8 @@
 #include "../../Player/Player.h"
 #include <iostream>
 #include "../../Dice/Dice.h"
+#include "../../Graph/Graph.h"
+#include "../../MapLoader/MapLoader.h"
 
 int main()
 {
@@ -9,4 +11,11 @@ int main()
   Player* player = new Player();
   std::cout << player -> toString() << std::endl;
   player -> rollDice();
+  std::cout << "\n";
+  std::cout << "\n";
+
+  MapLoader::setFilePath("map.map");
+  MapLoader::loadMap();
+
+  player -> move();
 }
