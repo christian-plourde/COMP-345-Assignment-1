@@ -81,5 +81,8 @@ int main()
   std::cout << "Celebrity Count: " << celebrityCount << std::endl;
   std::cout << "Ouch Count: " << ouchCount << std::endl;
 
+  delete dice;
+  dice = NULL;
+  return 0;
 
 }

@@ -5,7 +5,7 @@
 int main()
 {
   //tests compiled in corresponding executables
-  
+
   //first test with a file that does not exist
 
   /*
@@ -40,15 +40,16 @@ int main()
   */
 
   //fifth test with a valid map and graph output
-  /*
+
   std::string garbageFilePath = "GoodMap.map";
   std::cout << "File path: " << garbageFilePath << std::endl;
   MapLoader::setFilePath(garbageFilePath);
   Graph<std::string>* graph = MapLoader::loadMap();
   std::cout << graph -> toString() << std::endl;
-  */
+  
 
-
+  delete graph;
+  graph = NULL;
 
 
   return 0;

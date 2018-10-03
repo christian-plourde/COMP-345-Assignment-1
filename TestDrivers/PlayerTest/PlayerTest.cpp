@@ -18,4 +18,9 @@ int main()
   Graph<std::string>* graph = MapLoader::loadMap();
 
   player -> move(graph);
+
+  delete graph;
+  graph = NULL;
+  delete player;
+  player = NULL;
 }
