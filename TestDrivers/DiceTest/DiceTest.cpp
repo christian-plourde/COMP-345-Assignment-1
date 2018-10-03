@@ -21,11 +21,11 @@ int main()
   int ouchCount = 0;
   int otherCount = 0;
 
-  for(int i = 0; i<1000000; i++)
+  for(int i = 0; i<100000; i++)
   {
     //roll the dice
     dice -> roll();
-    std::cout << dice -> toString() << std::endl;
+    //std::cout << dice -> toString() << std::endl;
 
     //for each dice, check its face and increment the appropriate counter
     for(int j = 0; j<6; j++)
