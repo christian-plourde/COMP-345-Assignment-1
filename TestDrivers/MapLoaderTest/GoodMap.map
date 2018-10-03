@@ -4,10 +4,6 @@
   type: master
   adjacent: Manhattan Lower 2-4
   adjacent: Manhattan Lower 5-6
-  adjacent: Manhattan Midtown 2-4
-  adjacent: Manhattan Midtown 5-6
-  adjacent: Manhattan Upper 2-4
-  adjacent: Manhattan Upper 5-6
   adjacent: Bronx
   adjacent: Queens
   adjacent: Staten Island
@@ -20,7 +16,6 @@
   type: inner
   adjacent: Manhattan
   adjacent: Manhattan Midtown 2-4
-  adjacent: Manhattan Upper 2-4
   adjacent: Bronx
   adjacent: Queens
   adjacent: Staten Island
@@ -56,7 +51,6 @@
   type: inner
   adjacent: Manhattan
   adjacent: Manhattan Midtown 5-6
-  adjacent: Manhattan Upper 5-6
   adjacent: Bronx
   adjacent: Queens
   adjacent: Staten Island

@@ -275,10 +275,29 @@ void Player::rollDice()
 
 }
 
-void Player::move()
+void Player::move(Graph<std::string>* graph)
 {
   //this method will allow the player to move from one location to another in the graph, as long as it is possible
+  bool regionIsValid = false; //a check to see if the region that the player wants to move to is valid
+  int region = 0; //the index of the region where the player wants to move (these match the index of the region in the array)
+                  //in the graph
 
-  
+  do
+  {
+    //this do while loop will prompt the user to enter the name of the region where he would like to move
+    std::cout << "Please enter the number corresponding to the region where you would like to move: " << std::endl;
+
+    //now we should display each vertex in the graph in a list for the user to choose from
+    for(int i = 0; i < graph -> getVertexCount(); i++)
+    {
+        std::cout << (i + 1) << ". " << graph -> getVertex(i) -> toString() << std::endl;
+    }
+
+  } while(regionIsValid);
+
+
+
+
+
 }
 

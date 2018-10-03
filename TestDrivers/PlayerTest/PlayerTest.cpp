@@ -15,7 +15,7 @@ int main()
   std::cout << "\n";
 
   MapLoader::setFilePath("map.map");
-  MapLoader::loadMap();
+  Graph<std::string>* graph = MapLoader::loadMap();
 
-  player -> move();
+  player -> move(graph);
 }
