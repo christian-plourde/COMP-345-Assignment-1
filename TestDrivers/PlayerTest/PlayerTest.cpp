@@ -17,6 +17,8 @@ int main()
   MapLoader::setFilePath("map.map");
   Graph<std::string>* graph = MapLoader::loadMap();
 
+  std::cout << "Before move:\n" << player -> toString() << std::endl;
+
   try
   {
     player -> move(graph);
@@ -26,6 +28,8 @@ int main()
   {
     std::cout << e.what() << std::endl;
   }
+
+  std::cout << "After move:\n" << player -> toString() << std::endl;
 
   delete graph;
   graph = NULL;
