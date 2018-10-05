@@ -288,9 +288,22 @@ void Player::move(Graph<std::string>* graph)
     std::cout << "Please enter the number corresponding to the region where you would like to move: " << std::endl;
 
     //now we should display each vertex in the graph in a list for the user to choose from
+    /*
+    The player should only be allowed to move (by choice) if he is in an outer region. If he is within manhattan, we will be moved
+    automatically, therefore this method need only consider those cases where the player is in an outer region.
+    */
     for(int i = 0; i < graph -> getVertexCount(); i++)
     {
+      /*
+      We only want to display the outer and master nodes since these are the only places where a player can move.
+      When determining if the player can move to manhattan, the calling method should handle the case where the player
+      cannot move there.
+      */
+      if(graph -> getVertex(i) -> getData() == "outer" || graph -> getVertex(i) -> getData() == "master")
+      {
         std::cout << (i + 1) << ". " << graph -> getVertex(i) -> toString() << std::endl;
+      }
+
     }
 
   } while(regionIsValid);
