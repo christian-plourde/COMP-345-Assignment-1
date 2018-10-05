@@ -17,7 +17,15 @@ int main()
   MapLoader::setFilePath("map.map");
   Graph<std::string>* graph = MapLoader::loadMap();
 
-  player -> move(graph);
+  try
+  {
+    player -> move(graph);
+  }
+
+  catch (MasterNodeFullException e)
+  {
+    std::cout << e.what() << std::endl;
+  }
 
   delete graph;
   graph = NULL;

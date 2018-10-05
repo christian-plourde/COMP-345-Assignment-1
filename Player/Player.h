@@ -7,6 +7,7 @@
 #include "CharacterMethods.h"
 #include "../Dice/Dice.h" //each player should have a dice object
 #include "../Graph/Graph.h"
+#include "../Lib/MasterNodeFullException.h"
 
 class Player
 {
@@ -22,6 +23,8 @@ class Player
     int zone; //the zone that the player is currently in
     void initializeChosenCharacters(); //a method to initialize the chosen characters when beginning the game
     Dice* dice; //the dice that the player will be rolling
+    //TODO add linked list of cards
+    //TODO add linked list of tokens
 
   public:
     Player(); //default constructor

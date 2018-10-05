@@ -13,12 +13,14 @@ class SinglyLinkedList
 
   private:
     node<T> *head; //the first node in the list
+    node<T> *tail; //the tail of the linked list
     int count; //the count of items in the list
 
   public:
     SinglyLinkedList(); //constructor
     ~SinglyLinkedList(); //destructor
-    void add(node<T>*); //add a node to the list
+    void add(node<T>*); //add a node to the head of the list
+    void addLast(node<T>*); //add a node to the end of the list
     void remove(node<T>*); //remove a node from the list
     node<T>* search(node<T>*); //search the list for a particular node
     bool contains(node<T>*); //determines if the passed node is in the list
@@ -32,6 +34,7 @@ template <class T>
 SinglyLinkedList<T>::SinglyLinkedList()
 {
   head = NULL; //set the head of the list to point at nothing
+  tail = NULL; //set the tail of the list to null
   count = 0; //initially there are no items in the list
 }
 
@@ -48,7 +51,10 @@ void SinglyLinkedList<T>::add(node<T>* newNode)
 {
   //if there are no elements in the list, just point the head to our node
   if(count == 0)
+  {
     head = newNode;
+    tail = newNode;
+  }
 
   else
   {
@@ -58,6 +64,28 @@ void SinglyLinkedList<T>::add(node<T>* newNode)
   }
 
   //increase the size of the list by one
+  count++;
+}
+
+template <class T>
+void SinglyLinkedList<T>::addLast(node<T>* newNode)
+{
+  //if there is nothing in the list, then the head and the tail are the same
+  if(count == 0)
+  {
+    head = newNode;
+    tail = newNode;
+  }
+
+  else
+  {
+    //the node after the tail becomes the new node
+    tail -> setNext(newNode);
+    //then the tail becomes the new node
+    tail = newNode;
+  }
+
+  //increase the node count by one
   count++;
 }
 

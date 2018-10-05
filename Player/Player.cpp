@@ -295,22 +295,66 @@ void Player::move(Graph<std::string>* graph)
     for(int i = 0; i < graph -> getVertexCount(); i++)
     {
       /*
-      We only want to display the outer and master nodes since these are the only places where a player can move.
-      When determining if the player can move to manhattan, the calling method should handle the case where the player
-      cannot move there.
+      The player will be shown each node, but only the outer and master nodes are valid choices
       */
-      if(graph -> getVertex(i) -> getData() == "outer" || graph -> getVertex(i) -> getData() == "master")
+      std::cout << (i + 1) << ". " << graph -> getVertex(i) -> toString() << std::endl;
+    }
+
+    /*
+    Now the player is prompted to enter a choice between 1 and the number of vertices in the graph
+    There are two ways he can mess up his choice. He could either enter a number less than 1 or a number greater than the number of vertices in the graph
+    Or he could mess up by entering a node that is not an outer node or the master node. If he chooses the master node, this is only valid as long as manhattan is
+    not full. However, since we don't know if it is full because thate depends on the other players' positions, then we need not catch this exception here and place
+    the responsibility of catching that exception on the calling method
+    */
+
+    std::cout << "Enter your choice here: ";
+
+    try
+    {
+      std::cin >> region;
+
+      if(region < 1 || region > graph -> getVertexCount())
       {
-        std::cout << (i + 1) << ". " << graph -> getVertex(i) -> toString() << std::endl;
+        //if the region is less than 1 or greater than the vertex count of the graph, then that number is invalid and the player should be prompted once again
+        throw region;
       }
+
+      if(graph -> getVertex(region - 1) -> getData() == "inner")
+      {
+        //if the type of the vertex the player has selected is an inner vertex, i.e. on the island of manhattan, then it is not a valid choice
+        throw graph -> getVertex(region - 1);
+      }
+
+      if(graph -> getVertex(region - 1) -> getData() == "master")
+      {
+        //if a player wants to move to manhattan, then throw an exception that is handled by the calling method to check
+        //if it is possible to move to manhattan or not.
+        throw MasterNodeFullException();
+      }
+
+      //if we made it here then the selected node was valid
+      this -> setZone(region - 1);
+      regionIsValid = true;
 
     }
 
-  } while(regionIsValid);
+    catch (int e)
+    {
+      //if the value was less than 1 or larger than the vertex count, then display a message and then repeat the loop
+      std::cout << "You cannot move to a node that does not exist! Please try again..." << std::endl;
+      regionIsValid = false;
+    }
+
+    catch (GraphVertex<std::string>* g)
+    {
+      //if the vertex that the player wants to move to is an inner vertex, then we should send a message and repeat
+      std::cout << "You cannot move to a node that is within the goal region! Please try again..." << std::endl;
+      regionIsValid = false;
+    }
 
 
-
-
+  } while(!regionIsValid);
 
 }
 
