@@ -7,7 +7,8 @@
 #include "CharacterMethods.h"
 #include "../Dice/Dice.h" //each player should have a dice object
 #include "../Graph/Graph.h"
-#include "../Lib/MasterNodeFullException.h"
+#include "../Lib/Exceptions/MasterNodeFullException.h"
+#include "../MapLoader/MapLoader.h"
 
 class Player
 {
@@ -50,7 +51,9 @@ class Player
     void setZone(int); //set the zone that the player should now be in.
     Dice* getDice(); //return a pointer to the dice object that this player is using
     void rollDice(); //a method for the player to roll the dice based on the rules of the game
-    void move(Graph<std::string>*); //a method to allow the player to move from one region to another
+    void move(); //a method to allow the player to move from one region to another
+    void resolveDice(); //a method to resolve the dice that the player has rolled. It should be called when the player
+                        // is finished rolling his dice
 };
 
 #endif

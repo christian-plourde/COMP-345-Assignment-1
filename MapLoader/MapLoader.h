@@ -10,14 +10,16 @@
 class MapLoader
 {
   public:
-    static Graph<std::string>* loadMap(); //loads a .map file from the passed file path into a graph object
+    static void loadMap(); //loads a .map file from the passed file path into the static graph field of the class
     static void setFilePath(std::string);
     static std::string getFilePath();
+    static Graph<std::string>* getMap(); //get the graph containing the game board
 
   private:
     static bool fileIsValid(); //check if the file at the passed file path is valid or not
     static int nodeCount; //this is required for creating the graph as we need to know how many nodes are in it
     static std::string filePath; //the file path
+    static Graph<std::string>* map; //the game map
 };
 
 #endif

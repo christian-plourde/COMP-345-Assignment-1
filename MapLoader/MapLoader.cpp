@@ -4,6 +4,7 @@
 
 std::string MapLoader::filePath = ""; //initialize filePath to an empty string
 int MapLoader::nodeCount = 0; //initialize the nodeCount to 0
+Graph<std::string>* MapLoader::map = NULL; //initialize the graph to NULL
 
 void MapLoader::setFilePath(std::string path)
 {
@@ -17,7 +18,7 @@ std::string MapLoader::getFilePath()
   return MapLoader::filePath;
 }
 
-Graph<std::string>* MapLoader::loadMap()
+void MapLoader::loadMap()
 {
   //method to load the map file into a graph object
   //IMPORTANT!!! The master node, i.e. manhattan, must appear first in the file
@@ -99,7 +100,8 @@ Graph<std::string>* MapLoader::loadMap()
       }
     }
 
-    return graph; //return the graph containing the game board
+    map = graph;
+    graph = NULL;
   }
 
   else
@@ -108,10 +110,8 @@ Graph<std::string>* MapLoader::loadMap()
     //should exit the Program
     std::cerr << "Exiting..." << std::endl;
     exit(1);
-    return NULL;
   }
 
-  return NULL;
 }
 
 bool MapLoader::fileIsValid()
@@ -245,4 +245,9 @@ bool MapLoader::fileIsValid()
   input.close();
   return false;
 
+}
+
+Graph<std::string>* MapLoader::getMap()
+{
+  return map;
 }

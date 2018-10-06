@@ -12,15 +12,16 @@ int main()
   std::string garbageFilePath = "hello";
   std::cout << "File path: " << garbageFilePath << std::endl;
   MapLoader::setFilePath(garbageFilePath);
-  Graph<std::string>* graph = MapLoader::loadMap();
+  MapLoader::loadMap();
   */
+
 
   //second test with a file that is not connected
   /*
   std::string garbageFilePath = "UnconnectedMap.map";
   std::cout << "File path: " << garbageFilePath << std::endl;
   MapLoader::setFilePath(garbageFilePath);
-  Graph<std::string>* graph = MapLoader::loadMap();
+  MapLoader::loadMap();
   */
 
   //third test where a brace is missing
@@ -28,7 +29,7 @@ int main()
   std::string garbageFilePath = "MissingBrace.map";
   std::cout << "File path: " << garbageFilePath << std::endl;
   MapLoader::setFilePath(garbageFilePath);
-  Graph<std::string>* graph = MapLoader::loadMap();
+  MapLoader::loadMap();
   */
 
   //fourth test where a node has no name
@@ -36,20 +37,19 @@ int main()
   std::string garbageFilePath = "MissingNameField.map";
   std::cout << "File path: " << garbageFilePath << std::endl;
   MapLoader::setFilePath(garbageFilePath);
-  Graph<std::string>* graph = MapLoader::loadMap();
+  MapLoader::loadMap();
   */
 
   //fifth test with a valid map and graph output
 
+  
   std::string garbageFilePath = "GoodMap.map";
   std::cout << "File path: " << garbageFilePath << std::endl;
   MapLoader::setFilePath(garbageFilePath);
-  Graph<std::string>* graph = MapLoader::loadMap();
-  std::cout << graph -> toString() << std::endl;
-  
+  MapLoader::loadMap();
 
-  delete graph;
-  graph = NULL;
+  std::cout << MapLoader::getMap() -> toString() << std::endl;
+  delete MapLoader::getMap();
 
 
   return 0;

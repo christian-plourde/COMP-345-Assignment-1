@@ -15,13 +15,13 @@ int main()
   std::cout << "\n";
 
   MapLoader::setFilePath("map.map");
-  Graph<std::string>* graph = MapLoader::loadMap();
+  MapLoader::loadMap();
 
   std::cout << "Before move:\n" << player -> toString() << std::endl;
 
   try
   {
-    player -> move(graph);
+    player -> move();
   }
 
   catch (MasterNodeFullException e)
@@ -30,9 +30,7 @@ int main()
   }
 
   std::cout << "After move:\n" << player -> toString() << std::endl;
-
-  delete graph;
-  graph = NULL;
+  
   delete player;
   player = NULL;
 }

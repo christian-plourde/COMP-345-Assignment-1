@@ -275,7 +275,7 @@ void Player::rollDice()
 
 }
 
-void Player::move(Graph<std::string>* graph)
+void Player::move()
 {
   //this method will allow the player to move from one location to another in the graph, as long as it is possible
   bool regionIsValid = false; //a check to see if the region that the player wants to move to is valid
@@ -292,12 +292,12 @@ void Player::move(Graph<std::string>* graph)
     The player should only be allowed to move (by choice) if he is in an outer region. If he is within manhattan, we will be moved
     automatically, therefore this method need only consider those cases where the player is in an outer region.
     */
-    for(int i = 0; i < graph -> getVertexCount(); i++)
+    for(int i = 0; i < MapLoader::getMap() -> getVertexCount(); i++)
     {
       /*
       The player will be shown each node, but only the outer and master nodes are valid choices
       */
-      std::cout << (i + 1) << ". " << graph -> getVertex(i) -> toString() << std::endl;
+      std::cout << (i + 1) << ". " << MapLoader::getMap() -> getVertex(i) -> toString() << std::endl;
     }
 
     /*
@@ -314,19 +314,19 @@ void Player::move(Graph<std::string>* graph)
     {
       std::cin >> region;
 
-      if(region < 1 || region > graph -> getVertexCount())
+      if(region < 1 || region > MapLoader::getMap() -> getVertexCount())
       {
         //if the region is less than 1 or greater than the vertex count of the graph, then that number is invalid and the player should be prompted once again
         throw region;
       }
 
-      if(graph -> getVertex(region - 1) -> getData() == "inner")
+      if(MapLoader::getMap() -> getVertex(region - 1) -> getData() == "inner")
       {
         //if the type of the vertex the player has selected is an inner vertex, i.e. on the island of manhattan, then it is not a valid choice
-        throw graph -> getVertex(region - 1);
+        throw MapLoader::getMap() -> getVertex(region - 1);
       }
 
-      if(graph -> getVertex(region - 1) -> getData() == "master")
+      if(MapLoader::getMap() -> getVertex(region - 1) -> getData() == "master")
       {
         //if a player wants to move to manhattan, then throw an exception that is handled by the calling method to check
         //if it is possible to move to manhattan or not.
@@ -355,6 +355,17 @@ void Player::move(Graph<std::string>* graph)
 
 
   } while(!regionIsValid);
+
+}
+
+void Player::resolveDice()
+{
+  /*method to resolve the dice that the player has rolled
+  there are six possible outcomes from the dice
+  we will deal with each one one by one
+  first the easier ones, energy and healing*/
+
+
 
 }
 
