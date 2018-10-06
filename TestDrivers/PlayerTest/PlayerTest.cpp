@@ -20,8 +20,6 @@ int main()
   MapLoader::loadMap();
 
   player -> resolveDice();
-  std::cout << player -> toString() << std::endl;
-  std::cout << player2 -> toString() << std::endl;
 
 
 

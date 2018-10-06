@@ -442,7 +442,6 @@ void Player::resolveDice()
 
     }
 
-
   }
 }
 
