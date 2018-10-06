@@ -15,7 +15,7 @@ int main()
 
   MapLoader::setFilePath("D:/C++ Programs/COMP 345/A1/MapLoader/map.map");
 
-  Graph<std::string>* graph = MapLoader::loadMap();
+  MapLoader::loadMap();
 
   bool playerCountIsValid = false; // a boolean to store whether or not the playerCount is valid
   int playerCount; //the number of players that will be playing the game
@@ -41,7 +41,7 @@ int main()
   //now that we have set the number of players playing the game it is time to initialize their player characters
   Player* players = GameSetupFunctions::initializePlayers(playerCount);
 
-  GameSetupFunctions::setPlayerStartZones(playerCount, players, graph); //set the zones where the players will begin
+  GameSetupFunctions::setPlayerStartZones(playerCount, players, MapLoader::getMap()); //set the zones where the players will begin
 
   std::cout << "Ready to begin the game!" << std::endl; //ready to start!
 

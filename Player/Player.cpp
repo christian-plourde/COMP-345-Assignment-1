@@ -5,6 +5,7 @@
 //declaring the static variables
 int Player::playerCount = 0;
 enum Characters* Player::chosenCharacters = new Characters[6];
+SinglyLinkedList<Player*>* Player::players = new SinglyLinkedList<Player*>();
 
 //default constructor for use in player arrays
 Player::Player()
@@ -24,6 +25,9 @@ Player::Player()
   //we need to set the start zone of the player
   zone = playerNumber; //arbitrarily set it to the playerNumber, it will be changed after anyways
   dice = new Dice(); //the dice that the player will be using
+  node<Player*>* newNode = new node<Player*>();
+  newNode -> setData(this);
+  players -> add(newNode);
 }
 
 Player::Player(std::string name)
@@ -43,6 +47,9 @@ Player::Player(std::string name)
   //we need to set the start zone of the player
   zone = playerNumber; //arbitrarily set it to the playerNumber, it will be changed after anyways
   dice = new Dice(); //the dice that the player will be using
+  node<Player*>* newNode = new node<Player*>();
+  newNode -> setData(this);
+  players -> add(newNode);
 }
 
 Player::~Player()
@@ -123,6 +130,13 @@ void Player::setHealth(int health)
   if(health < 0)
   {
     this -> health = 0;
+  }
+
+  else if(health > 10)
+  {
+    //the maximum health a player can have is ten.
+    //therefore if a number greater than 10 is entered, set the health to the maximum value
+    this -> health = 10;
   }
 
   else
@@ -365,7 +379,70 @@ void Player::resolveDice()
   we will deal with each one one by one
   first the easier ones, energy and healing*/
 
+  //for the energy cubes, we simply need to count the number of energy cubes that the player has in his dice
+  //rolled array and for each one, we increment his energycube count by one
+  int i = 0;
+
+  for(i = 0; i < 6; i++)
+  {
+    if(dice -> getResult()[i] == Energy)
+    {
+      energy++;
+    }
+
+    //for the heal cubes, you gain one health for each heart rolled, unless you are in manhattan and the max is 10
+    if(dice -> getResult()[i] == Heal && health < 10 && (MapLoader::getMap() -> getVertex(zone) -> getData() != "master" && MapLoader::getMap() -> getVertex(zone) -> getData() != "inner"))
+    {
+      health++;
+    }
 
 
+    //for the attack cubes, the effect depends on where the player is
+    if(dice -> getResult()[i] == Attack && MapLoader::getMap() -> getVertex(zone) -> getData() == "inner")
+    {
+      //if the player is within manhattan, then each player outside of manhattan loses a health point for each attack rolled
+      //we need to go through each node in our player list and check if the player is outside manhattan
+      node<Player*>* currentNode = players -> getHead();
+
+      while(currentNode != NULL)
+      {
+        //we go through each node in our players list and check if the player is outside manhattan
+        if(MapLoader::getMap() -> getVertex(currentNode -> getData() -> getZone()) -> getData() == "outer")
+        {
+          //if the player is outside manhattan, he loses a health point
+          currentNode -> getData() -> health--;
+        }
+
+        //look at the following node
+        currentNode = currentNode -> getNext();
+      }
+
+    }
+
+    //for the attack cubes, the other case is where the player is outside manhattan and he affects everyone in
+    //mahattan
+    if(dice -> getResult()[i] == Attack && MapLoader::getMap() -> getVertex(zone) -> getData() == "outer`")
+    {
+      //if the player is outside manhattan, then each player inside of manhattan loses a health point for each attack rolled
+      //we need to go through each node in our player list and check if the player is inside manhattan
+      node<Player*>* currentNode = players -> getHead();
+
+      while(currentNode != NULL)
+      {
+        //we go through each node in our players list and check if the player is inside manhattan
+        if(MapLoader::getMap() -> getVertex(currentNode -> getData() -> getZone()) -> getData() == "inner")
+        {
+          //if the player is inside manhattan, he loses a health point
+          currentNode -> getData() -> health--;
+        }
+
+        //look at the following node
+        currentNode = currentNode -> getNext();
+      }
+
+    }
+
+
+  }
 }
 

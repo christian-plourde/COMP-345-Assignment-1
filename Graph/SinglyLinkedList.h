@@ -27,6 +27,8 @@ class SinglyLinkedList
     std::string toString(); //display the linked list's contents
     int getCount(); //return the number of elements in the list
     void clear(); //clears all the content of the linked list
+    node<T>* getHead(); //returns the head of the list
+    node<T>* getTail(); //returns the tail of the list
 
 };
 
@@ -283,6 +285,18 @@ void SinglyLinkedList<T>::clear()
 
   head = NULL;
 
+}
+
+template <class T>
+node<T>* SinglyLinkedList<T>::getHead()
+{
+  return head;
+}
+
+template <class T>
+node<T>* SinglyLinkedList<T>::getTail()
+{
+  return tail;
 }
 
 #endif

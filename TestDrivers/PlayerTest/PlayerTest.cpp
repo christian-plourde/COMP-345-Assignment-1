@@ -9,7 +9,9 @@ int main()
   std::cout << "This is a test of the player class." << std::endl;
 
   Player* player = new Player();
+  Player* player2 = new Player();
   std::cout << player -> toString() << std::endl;
+  std::cout << player2 -> toString() << std::endl;
   player -> rollDice();
   std::cout << "\n";
   std::cout << "\n";
@@ -17,20 +19,13 @@ int main()
   MapLoader::setFilePath("map.map");
   MapLoader::loadMap();
 
-  std::cout << "Before move:\n" << player -> toString() << std::endl;
+  player -> resolveDice();
+  std::cout << player -> toString() << std::endl;
+  std::cout << player2 -> toString() << std::endl;
 
-  try
-  {
-    player -> move();
-  }
 
-  catch (MasterNodeFullException e)
-  {
-    std::cout << e.what() << std::endl;
-  }
 
-  std::cout << "After move:\n" << player -> toString() << std::endl;
-  
+
   delete player;
   player = NULL;
 }
