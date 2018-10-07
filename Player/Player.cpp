@@ -396,7 +396,6 @@ void Player::resolveDice()
       health++;
     }
 
-
     //for the attack cubes, the effect depends on where the player is
     if(dice -> getResult()[i] == Attack && MapLoader::getMap() -> getVertex(zone) -> getData() == "inner")
     {
@@ -406,22 +405,21 @@ void Player::resolveDice()
 
       while(currentNode != NULL)
       {
-        //we go through each node in our players list and check if the player is outside manhattan
+        //if the other player is in an outer zone, then he gets hit for one point
         if(MapLoader::getMap() -> getVertex(currentNode -> getData() -> getZone()) -> getData() == "outer")
         {
-          //if the player is outside manhattan, he loses a health point
-          currentNode -> getData() -> health--;
+          //we need to set the health of the player to one less than his current health
+          currentNode -> getData() -> setHealth(currentNode -> getData() -> getHealth() - 1);
         }
-
-        //look at the following node
+        //then move to the next node in the list
         currentNode = currentNode -> getNext();
       }
 
     }
 
-    //for the attack cubes, the other case is where the player is outside manhattan and he affects everyone in
-    //mahattan
-    if(dice -> getResult()[i] == Attack && MapLoader::getMap() -> getVertex(zone) -> getData() == "outer`")
+    //for the attack cubes, the effect depends on where the player is
+    //now we do the opposite from before
+    if(dice -> getResult()[i] == Attack && MapLoader::getMap() -> getVertex(zone) -> getData() == "outer")
     {
       //if the player is outside manhattan, then each player inside of manhattan loses a health point for each attack rolled
       //we need to go through each node in our player list and check if the player is inside manhattan
@@ -429,14 +427,13 @@ void Player::resolveDice()
 
       while(currentNode != NULL)
       {
-        //we go through each node in our players list and check if the player is inside manhattan
+        //if the other player is in an inner zone, then he gets hit for one point
         if(MapLoader::getMap() -> getVertex(currentNode -> getData() -> getZone()) -> getData() == "inner")
         {
-          //if the player is inside manhattan, he loses a health point
-          currentNode -> getData() -> health--;
+          //we need to set the health of the player to one less than his current health
+          currentNode -> getData() -> setHealth(currentNode -> getData() -> getHealth() - 1);
         }
-
-        //look at the following node
+        //then move to the next node in the list
         currentNode = currentNode -> getNext();
       }
 

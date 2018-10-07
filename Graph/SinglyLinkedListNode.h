@@ -25,6 +25,7 @@ template <class T>
 node<T>::node()
 {
   //constructor
+  next = NULL;
 }
 
 template <class T>
