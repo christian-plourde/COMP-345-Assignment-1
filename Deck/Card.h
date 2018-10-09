@@ -1,4 +1,3 @@
-//this contains a class that contains information about a card in the game
 #ifndef CARD_H
 #define CARD_H
 #include <string>
@@ -8,6 +7,7 @@ enum HowTo { Empty, Goal, Keep, Discard };
 
 class Card {
 	private:
+		int id;
 		string name;
 		int cost;
 		HowTo howTo;
@@ -15,9 +15,10 @@ class Card {
 
 	public:
 		Card();
-		Card(string, int, HowTo, string);
+		Card(int, string, int, HowTo, string);
 		~Card();
 		
+		void setID(int);
 		void setName(string);
 		void setCost(int);
 		void setHowTo(HowTo);
@@ -27,6 +28,7 @@ class Card {
 		int getCost() const;
 		HowTo getHowTo() const;
 		string getEffect() const;
+		int getID() const;
 
 		void Print();
 };

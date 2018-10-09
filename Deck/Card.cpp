@@ -10,7 +10,8 @@ Card::Card() {
 	effect = "";
 }
 
-Card::Card(string nam, int cos, HowTo how, string eff) {
+Card::Card(int iD, string nam, int cos, HowTo how, string eff) {
+	id = iD;
 	name = nam;
 	cost = cos;
 	howTo = how;
@@ -19,6 +20,10 @@ Card::Card(string nam, int cos, HowTo how, string eff) {
 
 Card::~Card() {
 	//delete this;
+}
+
+void Card::setID(int i) {
+	id = i;
 }
 
 void Card::setName(string nam) {
@@ -37,6 +42,11 @@ void Card::setEffect(string eff) {
 	effect = eff;
 }
 
+int Card::getID() const {
+	return id;
+}
+
+
 string Card::getName() const {
 	return name;
 }
@@ -54,7 +64,8 @@ string Card::getEffect() const {
 }
 
 void Card::Print() {
-	cout << "{ Name: " << name << endl;
+	cout << "{ ID: " << id << endl;
+	cout << "  Name: " << name << endl;
 	cout << "  Cost: " << cost << endl;
 	cout << "  How To Play: " << how_To[howTo] << endl;
 	cout << "  Effect: " << effect << endl;
