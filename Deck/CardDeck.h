@@ -2,25 +2,29 @@
 #define CARDDECK_H
 
 #include "Card.h"
-#include<stack>
+#include "SinglyLinkedList.h"
 
 class CardDeck
 {
 	private: 
-		Card cardDeck[62];     // + 2 for special cards
+		Card specialCards[2];
+		Card cardDeck[64];
+		SinglyLinkedList<Card> cardDeckList;
+		SinglyLinkedList<Card> discardedCards;
 		int currentCard;
-		stack<Card> discardedCards;
 
 	public:
 		CardDeck();
 		~CardDeck();
 
-		void Print();
+		SinglyLinkedList<Card>* getDeck();
+		SinglyLinkedList<Card>* getDiscardedDeck();
+
+		void Print(SinglyLinkedList<Card>*);
 		void Shuffle();
 		bool isEmptyDeck();
 		bool isEmptyDiscardedDeck();
-		Card SelectACardFromDeck();
-		Card SelectACardFromDiscardedDeck();
-		void discardCard(Card);
+		Card SelectACard(SinglyLinkedList<Card>);
+		void discardCard(Card, SinglyLinkedList<Card>);
 };
 #endif
