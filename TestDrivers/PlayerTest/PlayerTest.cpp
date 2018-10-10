@@ -32,9 +32,14 @@ int main()
   std::cout << player -> toString() << std::endl;
   std::cout << player2 -> toString() << std::endl;
 
+  //now let's test the buy cards method
+  CardDeck deck;
+  deck.Shuffle();
 
-
+  player2 -> buyCards(deck);
 
   delete player;
   player = NULL;
+  delete player2;
+  player2 = NULL;
 }

@@ -9,6 +9,8 @@
 #include "../Graph/Graph.h"
 #include "../Lib/Exceptions/MasterNodeFullException.h"
 #include "../MapLoader/MapLoader.h"
+#include "../Deck/CardDeck.h"
+#include "../Lib/Exceptions/NotEnoughEnergyException.h"
 
 class Player
 {
@@ -25,7 +27,7 @@ class Player
     int zone; //the zone that the player is currently in
     void initializeChosenCharacters(); //a method to initialize the chosen characters when beginning the game
     Dice* dice; //the dice that the player will be rolling
-    //TODO add linked list of cards
+    SinglyLinkedList<Card>* cards; // this is a linked list holding all the cards that the player has in his hand
     //TODO add linked list of tokens
 
   public:
@@ -55,6 +57,8 @@ class Player
     void move(); //a method to allow the player to move from one region to another
     void resolveDice(); //a method to resolve the dice that the player has rolled. It should be called when the player
                         // is finished rolling his dice
+    void buyCards(CardDeck); //a method to allow the player to buy cards
+    SinglyLinkedList<Card>* getCards(); //gets the list of cards the player has in his hand
 };
 
 #endif

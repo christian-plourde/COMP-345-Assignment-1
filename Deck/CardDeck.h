@@ -2,11 +2,11 @@
 #define CARDDECK_H
 
 #include "Card.h"
-#include "SinglyLinkedList.h"
+#include "../Graph/SinglyLinkedList.h"
 
 class CardDeck
 {
-	private: 
+	private:
 		Card specialCards[2];
 		Card cardDeck[64];
 		SinglyLinkedList<Card> cardDeckList;

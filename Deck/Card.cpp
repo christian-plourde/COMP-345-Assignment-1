@@ -68,5 +68,5 @@ void Card::Print() {
 	cout << "  Name: " << name << endl;
 	cout << "  Cost: " << cost << endl;
 	cout << "  How To Play: " << how_To[howTo] << endl;
-	cout << "  Effect: " << effect << endl;
+	cout << "  Effect: " << effect << " }"<< endl;
 }

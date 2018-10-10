@@ -3,6 +3,7 @@
 #include <fstream>
 #include <time.h>
 #include <iomanip>
+#include <cstdlib>
 #include "Card.h"
 #include "CardDeck.h"
 using namespace std;

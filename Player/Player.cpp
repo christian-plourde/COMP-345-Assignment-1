@@ -25,6 +25,7 @@ Player::Player()
   //we need to set the start zone of the player
   zone = playerNumber; //arbitrarily set it to the playerNumber, it will be changed after anyways
   dice = new Dice(); //the dice that the player will be using
+  cards = new SinglyLinkedList<Card>(); //this will hold the cards the player has in his possession
   node<Player*>* newNode = new node<Player*>();
   newNode -> setData(this);
   players -> add(newNode);
@@ -47,6 +48,7 @@ Player::Player(std::string name)
   //we need to set the start zone of the player
   zone = playerNumber; //arbitrarily set it to the playerNumber, it will be changed after anyways
   dice = new Dice(); //the dice that the player will be using
+  cards = new SinglyLinkedList<Card>(); //this will hold the cards the player has in his possession
   node<Player*>* newNode = new node<Player*>();
   newNode -> setData(this);
   players -> add(newNode);
@@ -58,6 +60,8 @@ Player::~Player()
   //make sure the dice object is deleted
   delete dice;
   dice = NULL;
+  delete cards;
+  cards = NULL;
 }
 
 enum Characters Player::getCharacter()
@@ -372,16 +376,26 @@ void Player::move()
 
 }
 
+SinglyLinkedList<Card>* Player::getCards()
+{
+  return cards;
+}
+
 void Player::resolveDice()
 {
   /*method to resolve the dice that the player has rolled
   there are six possible outcomes from the dice
   we will deal with each one one by one
-  first the easier ones, energy and healing*/
+  */
 
   //for the energy cubes, we simply need to count the number of energy cubes that the player has in his dice
   //rolled array and for each one, we increment his energycube count by one
   int i = 0;
+  int ouchCount = 0; //we need to count the number of these, since the effect depends on the number of them
+                     //that was rolled.
+  int destructionCount = 0; //same as before, we need to know how many the player has rolled before we do
+                            //anything
+  int celebrityCount = 0; //same as before, we need to know how many the player has rolled before doing anything
 
   for(i = 0; i < 6; i++)
   {
@@ -439,6 +453,332 @@ void Player::resolveDice()
 
     }
 
+    //for the building destruction cubes, we need to know how many the player rolled before doing anything
+    if(dice -> getResult()[i] == Destruction)
+    {
+      destructionCount++;
+    }
+
+    //for the ouch cubes, we need to know which tiles are in the player's borough, and also how many ouches he rolled
+    //therefore in this for loop, we will simply count the number of ouch cubes
+    if(dice -> getResult()[i] == Ouch)
+    {
+      ouchCount++;
+    }
+
+    //for the celebrity cubes, we also need to know how many the player rolled before doing anything, since
+    //if he got 3 or more, then he gets a special card and otherwise nothing happens
+    if(dice -> getResult()[i] == Celebrity)
+    {
+      celebrityCount++;
+    }
+
   }
+
+  //now we need to apply the effect of the cubes that we counted, i.e. the ouch, destruction and celebrity cubes
+
+
 }
+
+//a method for the player to purchase cards with his energy cubes
+void Player::buyCards(CardDeck deck)
+{
+
+  //for the player to buy cards, since the deck is not static, we need to pass it the cardDeck in the method
+  //when the player wants to buy cards, the top three cards in the deck are revealed.
+  //since we know that three cards will be revealed, assuming there are three cards to reveal, then
+  //we should display those three cards
+
+  //this variable will hold the response that the player has given
+  std::string response = "";
+  int cardSelected = 0;
+  bool validResponse = true;
+
+  do
+  {
+
+    //we ask the user once what he would like to do
+    try
+    {
+      //request input from the user..
+      std::cout << this -> getName() << ", would you like to purchase some cards? Please enter (Y/N): ";
+      std::cin >> response; //store the response
+
+      //if the user said yes or no, then we should exit the loop and allow him to buy cards or exit
+      if(response == "Y" || response == "N")
+      {
+        validResponse = true;
+      }
+
+      //otherwise the response was invalid and we should catch the exception
+      else
+      {
+        validResponse = false;
+        throw response;
+      }
+    }
+
+    catch(std::string e)
+    {
+      //show an error message and try again
+      std::cout << "The response: \'" << response << "\' is invalid. Please try again..." << std::endl;
+    }
+
+
+  } while(!validResponse);
+
+  //if we have made it here, this means that the response was valid
+  //if the player said no, then we simply return since he does not want to buy cards
+
+  if(response == "N")
+    return;
+
+  else
+  {
+    //this is the case where the player said yes to purchasing cards
+    bool newCardsRequested = false; //this will keep track of whether or not the player has requested new cards
+    bool moreCardsDesired = false; //this will keep track of whether or not the player would like
+                                   //to purchase more cards
+
+    do
+    {
+      //we perform this operation so long as the player has requested new cards
+      std::cout << "Select a card from the following: " << std::endl;
+
+      //we need to display the top three cards from the deck for him to purchase
+      SinglyLinkedList<Card>* topThree = deck.getDeck(); //the list of the cards that are still not discarded
+      node<Card>* currentCard = topThree -> getHead(); //the head of the list
+
+      //we need to check if there are even three cards available
+      int count = topThree -> getCount();
+
+      if(count >= 3)
+      {
+        //if there are at least three cards, then we should display three cards
+        for(int i = 0; i < 3; i++)
+        {
+          std::cout << (i+1) << ". ";
+          currentCard -> getData().Print();
+          currentCard = currentCard -> getNext();
+        }
+
+        std::cout << "4. Reveal new cards (2 energy required)" << std::endl;
+      }
+
+      else if(count > 0)
+      {
+        //if there are still cards in the deck but less than 3, then we only display the ones that are available
+        int i = 0;
+        for(i = 0; i < count; i++)
+        {
+          std::cout << (i+1) << ". ";
+          currentCard -> getData().Print();
+          currentCard = currentCard -> getNext();
+        }
+
+        std::cout << (i+1) << ". Reveal new cards (2 energy required)" << std::endl;
+      }
+
+      else
+      {
+        //otherwise, if there are no cards in the deck, then obviously the player cannot purchase cards so we tell
+        //him and we return
+        std::cout << "The deck is empty!" << std::endl;
+        return;
+      }
+
+      //now that we have shown the top three cards, we need to ask the user to input a number between 1 and 3
+      //we have two cases to consider: either we have three or more cards, or we have less than 3
+
+      //first case where we have at least three cards
+      if(count >= 3)
+      {
+        //we need to ask the user for a number between 1 and 4 and we keep doing so until he enters something valid
+        //the fourth option is for him to reveal three new cards
+        do
+        {
+          try
+          {
+            //the user will enter a number between 1 and 3, or try again
+            std::cout << "Please enter a number between 1 and 4: ";
+            std::cin >> cardSelected;
+
+            //if the number is less than 1 or greater than 3, then that is an invalid choice and we should start over
+            if(cardSelected < 1 || cardSelected > 3)
+              throw cardSelected;
+
+            //otherwise, the response was valid and we can move on
+            validResponse = true;
+          }
+
+          catch(int e)
+          {
+            //if the card was not 4
+            if(cardSelected != 4)
+            {
+              std::cout << "The number \'" << cardSelected << "\' is invalid." << std::endl;
+              validResponse = false;
+            }
+
+            else
+            {
+              //if the player selected 4, then it is a valid response
+              validResponse = true;
+            }
+
+          }
+
+        } while(!validResponse);
+
+        //if the response was valid, then we are here.
+        //Either the player decided to reveal new cards, in which case the choice is 4
+
+        if(cardSelected == 4)
+        {
+          //in this case, we need to display new cards
+          //first we should check if the player has enough energy to do this
+
+          try
+          {
+            if(energy < 2)
+            {
+              throw NotEnoughEnergyException();
+            }
+
+            //if he does have enough energy, then we need to place the first three cards to the back of the deck,
+            //and then restart the process by setting the newCardsRequested parameter to true and calling a new iteration
+
+            //the process needs to be done three times
+
+            for(int i = 0; i < 3; i++)
+            {
+              node<Card> *card = topThree -> getHead();
+              topThree -> remove(card); //remove the card from the deck
+              topThree -> addLast(card); //add it back to the end
+            }
+
+            //now that the cards have been moved, set newCardsRequested to true and continue
+            //we also need to decrease the player's energy by 2
+            energy -= 2;
+            newCardsRequested = true;
+            continue;
+
+          }
+
+          catch(NotEnoughEnergyException e)
+          {
+            //display the error message
+            std::cout << e.what();
+            //if the player requested new cards, then he was not happy with the initial cards, and so if he doesn't
+            //have enough to reveal new, then we simply return
+            return;
+          }
+
+        }
+
+        //in the other case, where the player wants to purchase one of the selected cards
+        //We now need to retrieve the card that the player requested
+        //and add it to his deck, at the same time removing it from the deck
+        //begin at the head
+        else
+        {
+          currentCard = topThree -> getHead();
+          int j = 1;
+
+          while(j < cardSelected)
+          {
+            //while we are still not at the card he wanted, we move down the list until we find it
+            j++;
+            currentCard = currentCard -> getNext();
+          }
+
+
+          //now that the current card pointer points to the card that he wants, add it to his hand
+          Card toAdd = currentCard -> getData();
+          node<Card> cardToAdd;
+          cardToAdd.setData(toAdd);
+
+          //we need to check if the player has enough energy to actually purchase the card
+          try
+          {
+            if(energy >= toAdd.getCost())
+            {
+              //if the energy was greater than the cost of the carde, then the player can purchase it
+              cards -> add(&cardToAdd); //add the card to the player's cards
+              topThree -> remove(currentCard); //remove it from the cards available
+            }
+
+            else
+            {
+              throw NotEnoughEnergyException();
+            }
+          }
+
+          catch(NotEnoughEnergyException e)
+          {
+            std::cout << e.what() << std::endl;
+          }
+
+          //regardless of whether or not the card was purchased, we need to ask the player if he wants to purchase another card
+          //we will once again need to check the validity of his response
+          validResponse = false;
+
+          do
+          {
+            try
+            {
+              //we ask the user if he would like to purchase another card
+              std::cout << "Would you like to purchase more cards? Please enter (Y/N): ";
+              std::cin >> response;
+
+              if(response == "Y" || response == "N")
+              {
+                //if the repsonse was either Y or N then that is a valid response
+                validResponse = true;
+              }
+
+              else
+              {
+                //otherwise we throw the response
+                validResponse = false;
+                throw response;
+              }
+            }
+
+            catch(std::string e)
+            {
+              std::cout << "The response \'" << response << "\' is invalid. Please try again..." << std::endl;
+            }
+
+          } while(!validResponse);
+
+          //now that we have a valid response:
+
+          //if the user said yes, then set moreCardsDesired to true and repeat
+          //otherwise we simply return
+
+          if(response == "Y")
+          {
+            moreCardsDesired = true;
+          }
+
+          else
+            return;
+
+        }
+
+      }
+
+    } while(newCardsRequested || moreCardsDesired); //repeat as long as he wants more cards, or he wants to purchase
+                                                    //more from the three already revealed
+
+
+
+
+  }
+
+
+
+}
+
 

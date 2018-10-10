@@ -276,14 +276,14 @@ void SinglyLinkedList<T>::clear()
   node<T>* pointer = head;
   node<T>* temp = pointer -> getNext();
 
+  delete head;
+  head = NULL;
+
   while (temp != NULL)
   {
-    delete pointer;
-    pointer = temp;
+    delete temp;
     temp = temp -> getNext();
   }
-
-  head = NULL;
 
 }
 
