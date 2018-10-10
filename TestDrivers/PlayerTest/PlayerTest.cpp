@@ -4,6 +4,7 @@
 #include "../../Graph/Graph.h"
 #include "../../MapLoader/MapLoader.h"
 #include "../../Deck/TileDeck.h"
+#include "../../Lib/Exceptions/MasterNodeFullException.h"
 
 int main()
 {
@@ -39,11 +40,16 @@ int main()
   std::cout << player -> toString() << std::endl;
   std::cout << player2 -> toString() << std::endl;
 
+  //now we show the move functionality for player 2
+  player2 -> move();
+
+
   //now let's test the buy cards method
   CardDeck deck;
   deck.Shuffle();
 
-  player2 -> buyCards(deck);
+  player2 -> buyCards(&deck);
+  std::cout << "Finished" << std::endl;
 
   delete player;
   player = NULL;

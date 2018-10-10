@@ -481,7 +481,7 @@ void Player::resolveDice()
 }
 
 //a method for the player to purchase cards with his energy cubes
-void Player::buyCards(CardDeck deck)
+void Player::buyCards(CardDeck* deck)
 {
 
   //for the player to buy cards, since the deck is not static, we need to pass it the cardDeck in the method
@@ -531,7 +531,11 @@ void Player::buyCards(CardDeck deck)
   //if the player said no, then we simply return since he does not want to buy cards
 
   if(response == "N")
-    return;
+  {
+     std::cout << "Cancelling..." << std::endl;
+     return;
+  }
+
 
   else
   {
@@ -539,18 +543,24 @@ void Player::buyCards(CardDeck deck)
     bool newCardsRequested = false; //this will keep track of whether or not the player has requested new cards
     bool moreCardsDesired = false; //this will keep track of whether or not the player would like
                                    //to purchase more cards
+    SinglyLinkedList<Card>* topThree = deck -> getDeck(); //the list of the cards that are still not discarded
+    node<Card>* currentCard = topThree -> getHead(); //the head of the list
+    //we need to check if there are even three cards available
+    int count = topThree -> getCount();
 
     do
     {
+      //first make sure that both the options are set to false so that we don't go into an infinite loop
+      moreCardsDesired = false;
+      newCardsRequested = false;
+
       //we perform this operation so long as the player has requested new cards
       std::cout << "Select a card from the following: " << std::endl;
 
       //we need to display the top three cards from the deck for him to purchase
-      SinglyLinkedList<Card>* topThree = deck.getDeck(); //the list of the cards that are still not discarded
-      node<Card>* currentCard = topThree -> getHead(); //the head of the list
-
-      //we need to check if there are even three cards available
-      int count = topThree -> getCount();
+      topThree = deck -> getDeck();
+      currentCard = topThree -> getHead();
+      count = topThree -> getCount();
 
       if(count >= 3)
       {
@@ -763,24 +773,11 @@ void Player::buyCards(CardDeck deck)
             continue;
           }
 
-          else
-            return;
-
         }
 
       }
 
       //now for the case where we have less than three cards
-      else
-      {
-        //if there are less than 3 cards in the pack, then we need to display all of them
-        for(int i = 0; i < topThree -> getCount(); i++)
-        {
-          //for each card in the deck, display it with a number and then move to the next
-          
-        }
-
-      }
 
     } while(newCardsRequested || moreCardsDesired); //repeat as long as he wants more cards, or he wants to purchase
                                                     //more from the three already revealed

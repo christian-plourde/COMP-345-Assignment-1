@@ -57,7 +57,7 @@ class Player
     void move(); //a method to allow the player to move from one region to another
     void resolveDice(); //a method to resolve the dice that the player has rolled. It should be called when the player
                         // is finished rolling his dice
-    void buyCards(CardDeck); //a method to allow the player to buy cards
+    void buyCards(CardDeck*); //a method to allow the player to buy cards
     SinglyLinkedList<Card>* getCards(); //gets the list of cards the player has in his hand
 };
 
