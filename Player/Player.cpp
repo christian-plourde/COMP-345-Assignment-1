@@ -62,6 +62,8 @@ Player::~Player()
   dice = NULL;
   delete cards;
   cards = NULL;
+  delete[] chosenCharacters;
+  chosenCharacters = NULL;
 }
 
 enum Characters Player::getCharacter()

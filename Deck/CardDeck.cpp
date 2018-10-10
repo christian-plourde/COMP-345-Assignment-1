@@ -2,7 +2,6 @@
 #include <string>
 #include <fstream>
 #include <time.h>
-#include <iomanip>
 #include <cstdlib>
 #include "Card.h"
 #include "CardDeck.h"
@@ -55,10 +54,10 @@ CardDeck::CardDeck() {
 	Shuffle();
 	Shuffle();
 
-	for (Card c : cardDeck) {
+	for (int i = 0; i < 64; i++) {
 		node<Card> *nodes = new node<Card>();
-		nodes->setData(c);
-		cardDeckList.add(nodes);
+		nodes -> setData(cardDeck[i]);
+		cardDeckList -> add(nodes);
 	}
 }
 
@@ -81,15 +80,17 @@ HowTo stringToHowTo(string h) {
 }
 
 CardDeck::~CardDeck() {
-	//delete[] cardDeck;
+
+	delete cardDeckList;
+	delete discardedCards;
 }
 
 SinglyLinkedList<Card>* CardDeck::getDeck() {
-	return &cardDeckList;
+	return cardDeckList;
 }
 
 SinglyLinkedList<Card>* CardDeck::getDiscardedDeck() {
-	return &discardedCards;
+	return discardedCards;
 }
 
 void CardDeck::Print(SinglyLinkedList<Card> *list) {
@@ -132,13 +133,13 @@ void CardDeck::Shuffle() {
 }
 
 bool CardDeck::isEmptyDeck() {
-	if (cardDeckList.getCount() == 0)
+	if (cardDeckList -> getCount() == 0)
 		return true;
 	return false;
 }
 
 bool CardDeck::isEmptyDiscardedDeck() {
-	if (discardedCards.getCount() == 0)
+	if (discardedCards -> getCount() == 0)
 		return true;
 	return false;
 }

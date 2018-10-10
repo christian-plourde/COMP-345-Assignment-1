@@ -9,8 +9,8 @@ class CardDeck
 	private:
 		Card specialCards[2];
 		Card cardDeck[64];
-		SinglyLinkedList<Card> cardDeckList;
-		SinglyLinkedList<Card> discardedCards;
+		SinglyLinkedList<Card>* cardDeckList;
+		SinglyLinkedList<Card>* discardedCards;
 		int currentCard;
 
 	public:

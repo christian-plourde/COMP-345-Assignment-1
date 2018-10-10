@@ -273,16 +273,29 @@ int SinglyLinkedList<T>::getCount()
 template <class T>
 void SinglyLinkedList<T>::clear()
 {
-  node<T>* pointer = head;
-  node<T>* temp = pointer -> getNext();
-
-  delete head;
-  head = NULL;
-
-  while (temp != NULL)
+  if(count == 0)
   {
-    delete temp;
-    temp = temp -> getNext();
+    return;
+  }
+
+  else if(count == 1)
+  {
+    delete head;
+    head = NULL;
+  }
+
+  else
+  {
+    node<T>* pointer = head;
+    node<T>* temp;
+
+    while (pointer != NULL)
+    {
+      temp = pointer -> getNext();
+      delete pointer;
+      pointer = temp;
+    }
+
   }
 
 }

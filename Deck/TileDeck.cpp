@@ -85,12 +85,9 @@ void TileDeck::Shuffle() {
 }
 
 void TileDeck::Print() {
-	for (Tile t : tileDeck)
+	for (int i = 0; i < 45; i++)
 	{
-		if(&t != NULL)
-		{
-			t.Print();
-		}
+			tileDeck[i].Print();
 	}
 
 }

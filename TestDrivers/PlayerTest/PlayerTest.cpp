@@ -23,8 +23,8 @@ int main()
   std::cout << MapLoader::getMap() -> toString() << std::endl;
 
   //quick test of the tile deck
-  //TileDeck tilesDeck;
-  //tilesDeck.Print();
+  TileDeck tilesDeck;
+  tilesDeck.Print();
 
 
 
@@ -51,8 +51,25 @@ int main()
   player2 -> buyCards(&deck);
   std::cout << "Finished" << std::endl;
 
+
+  SinglyLinkedList<int>* list = new SinglyLinkedList<int>();
+  node<int>* node1 = new node<int>();
+  node1 -> setData(1);
+  node<int>* node2 = new node<int>();
+  node2 -> setData(2);
+  node<int>* node3 = new node<int>();
+  node3 -> setData(3);
+  list -> add(node1);
+  //list -> add(node2);
+  //list -> add(node3);
+  std::cout << list -> toString() << std::endl;
+  delete list;
+  std::cout << "list deleted" << std::endl;
+
+
   delete player;
   player = NULL;
   delete player2;
   player2 = NULL;
+  std::cout << "players deleted" << std::endl;
 }
