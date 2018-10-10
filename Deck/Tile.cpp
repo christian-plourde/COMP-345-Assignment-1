@@ -5,23 +5,22 @@ using namespace std;
 
 string Build[3] = { "High-Rise", "Power Plant", "Hospital" };
 string Unit[3] = { "Infantry", "Jet", "Tank" };
-string Borough[7] = { "Bronx", "Queens", "Brooklyn", "Staten Island", "Lower Manhatten", "Midtown Manhatten", "Upper Manhatten" };
 string Reward[3] = { "Star", "Heart", "Energy" };
 
 Tile::Tile() {
 	building = HighRise;
 	unit = Infantry;
-	borough = Brooklyn;
+	zone = 0;
 	durability = 1;
 	reward = 1;
-	rewardType = Star;
+	rewardType = star;
 	isUnit = false;
 }
 
-Tile::Tile(Buildings bu, Units un, Boroughs bo, int dur, int rew, Rewards rewType, bool isUn) {
+Tile::Tile(Buildings bu, Units un, int zone, int dur, int rew, Rewards rewType, bool isUn) {
 	building = bu;
 	unit = un;
-	borough = bo;
+	this -> zone = zone;
 	durability = dur;
 	reward = rew;
 	rewardType = rewType;
@@ -29,7 +28,7 @@ Tile::Tile(Buildings bu, Units un, Boroughs bo, int dur, int rew, Rewards rewTyp
 }
 
 Tile::~Tile() {
-	//delete this;
+	delete this;
 }
 
 void Tile::setBuilding(Buildings build) {
@@ -40,8 +39,12 @@ void Tile::setUnit(Units uni) {
 	unit = uni;
 }
 
-void Tile::setBorough(Boroughs bor) {
-	borough = bor;
+void Tile::setZone(int zone) {
+
+	if(zone >= 0 && zone < MapLoader::getMap() -> getVertexCount())
+	{
+		this -> zone = zone;
+	}
 }
 
 void Tile::setDurability(int dur) {
@@ -68,8 +71,8 @@ Units Tile::getUnit() const {
 	return unit;
 }
 
-Boroughs Tile::getBorough() const {
-	return borough;
+int Tile::getZone() const {
+	return zone;
 }
 
 int Tile::getDurability() const {
@@ -91,7 +94,7 @@ bool Tile::getIsUnit() const {
 void Tile::Print() {
 	cout << "{ Building: " << Build[building] << endl;
 	cout << "  Unit: " << Unit[unit] << endl;
-	cout << "  Borough: " << Borough[borough] << endl;
+	cout << "  Borough: " << MapLoader::getMap() -> getVertex(zone) -> toString() << endl;
 	cout << "  Durability: " << durability << endl;
 	if (reward > 1)
 		cout << "  Reward: " << reward << " " << Reward[rewardType] << "s\n";

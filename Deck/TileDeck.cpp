@@ -26,7 +26,7 @@ TileDeck::TileDeck()
 			tileDeck[i].setUnit(Tank);
 			tileDeck[i].setReward(3);
 		}
-		tileDeck[i].setRewardType(Star);
+		tileDeck[i].setRewardType(star);
 		tileDeck[i].setisUnit(false);
 	}
 
@@ -47,7 +47,7 @@ TileDeck::TileDeck()
 			tileDeck[i].setUnit(Tank);
 			tileDeck[i].setReward(3);
 		}
-		tileDeck[i].setRewardType(Energy);
+		tileDeck[i].setRewardType(energy);
 		tileDeck[i].setisUnit(false);
 	}
 
@@ -68,13 +68,13 @@ TileDeck::TileDeck()
 			tileDeck[i].setUnit(Tank);
 			tileDeck[i].setReward(3);
 		}
-		tileDeck[i].setRewardType(Heart);
+		tileDeck[i].setRewardType(heart);
 		tileDeck[i].setisUnit(false);
 	}
 }
 
 TileDeck::~TileDeck() {
-	delete[] tileDeck;
+
 }
 
 void TileDeck::Shuffle() {
@@ -86,7 +86,13 @@ void TileDeck::Shuffle() {
 
 void TileDeck::Print() {
 	for (Tile t : tileDeck)
-		t.Print();
+	{
+		if(&t != NULL)
+		{
+			t.Print();
+		}
+	}
+
 }
 
 bool TileDeck::EmptyDeck() {
@@ -103,9 +109,9 @@ Tile TileDeck::SelectATile() {
 void TileDeck::FlipTile(Tile *t) {
 
 	switch (t->getUnit()) {
-	case Infantry: t->setRewardType(Heart); break;
-	case Jet: t->setRewardType(Energy); break;
-	case Tank: t->setRewardType(Star); break;
+	case Infantry: t->setRewardType(heart); break;
+	case Jet: t->setRewardType(energy); break;
+	case Tank: t->setRewardType(star); break;
 	}
 
 	int durability = t->getDurability();

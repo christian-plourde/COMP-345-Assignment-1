@@ -2,6 +2,7 @@
 #define TILEDECK_h
 
 #include "Tile.h"
+#include <cstdlib>
 
 class TileDeck
 {
