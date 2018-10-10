@@ -760,6 +760,7 @@ void Player::buyCards(CardDeck deck)
           if(response == "Y")
           {
             moreCardsDesired = true;
+            continue;
           }
 
           else
@@ -769,15 +770,22 @@ void Player::buyCards(CardDeck deck)
 
       }
 
+      //now for the case where we have less than three cards
+      else
+      {
+        //if there are less than 3 cards in the pack, then we need to display all of them
+        for(int i = 0; i < topThree -> getCount(); i++)
+        {
+          //for each card in the deck, display it with a number and then move to the next
+          
+        }
+
+      }
+
     } while(newCardsRequested || moreCardsDesired); //repeat as long as he wants more cards, or he wants to purchase
                                                     //more from the three already revealed
 
-
-
-
   }
-
-
 
 }
 
