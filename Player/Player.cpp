@@ -479,6 +479,19 @@ void Player::resolveDice()
 
   //now we need to apply the effect of the cubes that we counted, i.e. the ouch, destruction and celebrity cubes
 
+  /*
+    Since both the ouch and the destruction dice rely on the tiles, we will need to use the tile deck in both those parts
+    First for the ouch dice, if one is rolled, then the player who rolled it is attacked by every unit in his borough
+    If two are rolled, then every one in the borough is attacked
+    If three or more are rolled, then every player gets attacked by each unit in his borough
+  */
+
+  if(ouchCount > 0)
+  {
+    //if the player rolled at least an ouch, then we need to deal with it
+    
+  }
+
 
 }
 

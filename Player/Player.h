@@ -11,6 +11,7 @@
 #include "../MapLoader/MapLoader.h"
 #include "../Deck/CardDeck.h"
 #include "../Lib/Exceptions/NotEnoughEnergyException.h"
+#include "../Deck/TileDeck.h"
 
 class Player
 {

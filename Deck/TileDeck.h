@@ -7,16 +7,16 @@
 class TileDeck
 {
 	private:
-		Tile tileDeck[45];
+		static Tile tileDeck[];
 		int currentTile;
 
 	public:
 		TileDeck();
 		~TileDeck();
-
 		void Print();
 		void Shuffle();
 		bool EmptyDeck();
+		static Tile* getTileDeck();
 		Tile* SelectATile();
 		Tile* getTile(int);
 		void FlipTile(Tile*);

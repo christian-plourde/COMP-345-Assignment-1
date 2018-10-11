@@ -3,7 +3,6 @@
 #include "../../Dice/Dice.h"
 #include "../../Graph/Graph.h"
 #include "../../MapLoader/MapLoader.h"
-#include "../../Deck/TileDeck.h"
 #include "../../Lib/Exceptions/MasterNodeFullException.h"
 
 int main()
@@ -21,10 +20,6 @@ int main()
   MapLoader::setFilePath("map.map"); //load the map since we will need it in order to resolve the dice effects
   MapLoader::loadMap(); // load the map
   std::cout << MapLoader::getMap() -> toString() << std::endl;
-
-
-
-
 
   player -> setZone(8); //set the player zone to 8 so that he is outside manhattan while the other is inside
                         //this is so we can test the effect of an attack roll
@@ -64,13 +59,6 @@ int main()
   delete list;
   std::cout << "list deleted" << std::endl;
   */
-
-  //quick test of the tile deck
-  TileDeck tilesDeck;
-  tilesDeck.getTile(0) -> Print();
-  Tile* tile = tilesDeck.getTile(0);
-  tilesDeck.DestroyTile(tile);
-  tilesDeck.getTile(0) -> Print();
 
 
 

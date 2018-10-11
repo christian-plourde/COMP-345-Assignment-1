@@ -5,6 +5,8 @@
 #include "TileDeck.h"
 using namespace std;
 
+Tile TileDeck::tileDeck[45];
+
 TileDeck::TileDeck()
 {
 	int i = 0;
@@ -15,16 +17,19 @@ TileDeck::TileDeck()
 			tileDeck[i].setDurability(1);
 			tileDeck[i].setUnit(Infantry);
 			tileDeck[i].setReward(1);
+			tileDeck[i].setZone(0);
 		}
 		else if (i < 10) {
 			tileDeck[i].setDurability(2);
 			tileDeck[i].setUnit(Jet);
 			tileDeck[i].setReward(2);
+			tileDeck[i].setZone(2);
 		}
 		else {
 			tileDeck[i].setDurability(3);
 			tileDeck[i].setUnit(Tank);
 			tileDeck[i].setReward(3);
+			tileDeck[i].setZone(3);
 		}
 		tileDeck[i].setRewardType(star);
 		tileDeck[i].setisUnit(false);
@@ -36,16 +41,19 @@ TileDeck::TileDeck()
 			tileDeck[i].setDurability(1);
 			tileDeck[i].setUnit(Infantry);
 			tileDeck[i].setReward(1);
+			tileDeck[i].setZone(8);
 		}
 		else if (i < 25) {
 			tileDeck[i].setDurability(2);
 			tileDeck[i].setUnit(Jet);
 			tileDeck[i].setReward(2);
+			tileDeck[i].setZone(9);
 		}
 		else {
 			tileDeck[i].setDurability(3);
 			tileDeck[i].setUnit(Tank);
 			tileDeck[i].setReward(3);
+			tileDeck[i].setZone(10);
 		}
 		tileDeck[i].setRewardType(energy);
 		tileDeck[i].setisUnit(false);
@@ -57,16 +65,19 @@ TileDeck::TileDeck()
 			tileDeck[i].setDurability(1);
 			tileDeck[i].setUnit(Infantry);
 			tileDeck[i].setReward(1);
+			tileDeck[i].setZone(7);
 		}
 		else if (i < 35) {
 			tileDeck[i].setDurability(2);
 			tileDeck[i].setUnit(Jet);
 			tileDeck[i].setReward(2);
+			tileDeck[i].setZone(6);
 		}
 		else {
 			tileDeck[i].setDurability(3);
 			tileDeck[i].setUnit(Tank);
 			tileDeck[i].setReward(3);
+			tileDeck[i].setZone(5);
 		}
 		tileDeck[i].setRewardType(heart);
 		tileDeck[i].setisUnit(false);
@@ -82,6 +93,11 @@ void TileDeck::Shuffle() {
 
 	for (int i = 0; i < 45; i++)
 		swap(tileDeck[i], tileDeck[rand() % 45]);
+}
+
+Tile* TileDeck::getTileDeck()
+{
+	return tileDeck;
 }
 
 void TileDeck::Print() {
