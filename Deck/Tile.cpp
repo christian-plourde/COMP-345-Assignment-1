@@ -15,6 +15,7 @@ Tile::Tile() {
 	reward = 1;
 	rewardType = star;
 	isUnit = false;
+	isDestroyed = false;
 }
 
 Tile::Tile(Buildings bu, Units un, int zone, int dur, int rew, Rewards rewType, bool isUn) {
@@ -25,10 +26,11 @@ Tile::Tile(Buildings bu, Units un, int zone, int dur, int rew, Rewards rewType, 
 	reward = rew;
 	rewardType = rewType;
 	isUnit = isUn;
+	isDestroyed = false;
 }
 
 Tile::~Tile() {
-	delete this;
+
 }
 
 void Tile::setBuilding(Buildings build) {
@@ -91,6 +93,16 @@ bool Tile::getIsUnit() const {
 	return isUnit;
 }
 
+bool Tile::getIsDestroyed()
+{
+	return isDestroyed;
+}
+
+void Tile::setIsDestroyed(bool dest)
+{
+	isDestroyed = dest;
+}
+
 void Tile::Print() {
 	cout << "{ Building: " << Build[building] << endl;
 	cout << "  Unit: " << Unit[unit] << endl;
@@ -100,5 +112,6 @@ void Tile::Print() {
 		cout << "  Reward: " << reward << " " << Reward[rewardType] << "s\n";
 	else
 		cout << "  Reward: " << reward << " " << Reward[rewardType] << endl;
-	cout << " Unit Tile: " << isUnit << " }" << endl;
+	cout << " Unit Tile: " << isUnit << endl;
+	cout << " Destroyed? " << isDestroyed << " }" << endl;
 }

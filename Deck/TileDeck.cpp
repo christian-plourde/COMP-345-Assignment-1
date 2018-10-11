@@ -98,9 +98,14 @@ bool TileDeck::EmptyDeck() {
 	return false;
 }
 
-Tile TileDeck::SelectATile() {
+Tile* TileDeck::getTile(int index)
+{
+	return &tileDeck[index];
+}
+
+Tile* TileDeck::SelectATile() {
 	currentTile++;
-	return tileDeck[currentTile - 1];
+	return &tileDeck[currentTile - 1];
 }
 
 void TileDeck::FlipTile(Tile *t) {
@@ -119,5 +124,15 @@ void TileDeck::FlipTile(Tile *t) {
 }
 
 void TileDeck::DestroyTile(Tile *t) {
-	delete t;
+
+	//find the tile in the array and set it to null
+	for(int i = 0; i < 45; i++)
+	{
+		if(&tileDeck[i] == t)
+		{
+			t -> setIsDestroyed(true);
+			break;
+		}
+	}
+
 }

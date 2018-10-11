@@ -12,6 +12,8 @@ HowTo stringToHowTo(string);
 int longestNameSize = 0;
 
 CardDeck::CardDeck() {
+	cardDeckList = new SinglyLinkedList<Card>();
+	discardedCards = new SinglyLinkedList<Card>();
 	string fname = "cards.csv";
 	string i, n, c, h, e;
 	ifstream file(fname);
@@ -128,8 +130,8 @@ void CardDeck::Print(SinglyLinkedList<Card> *list) {
 void CardDeck::Shuffle() {
 	srand(time(0));
 
-	for (int i = 0; i < 62; i++)
-		swap(cardDeck[i], cardDeck[rand() % 62]);
+	for (int i = 0; i < 64; i++)
+		swap(cardDeck[i], cardDeck[rand() % 64]);
 }
 
 bool CardDeck::isEmptyDeck() {

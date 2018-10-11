@@ -17,7 +17,8 @@ class TileDeck
 		void Print();
 		void Shuffle();
 		bool EmptyDeck();
-		Tile SelectATile();
+		Tile* SelectATile();
+		Tile* getTile(int);
 		void FlipTile(Tile*);
 		void DestroyTile(Tile*);
 };

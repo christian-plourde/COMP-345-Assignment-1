@@ -779,7 +779,7 @@ void Player::buyCards(CardDeck* deck)
 
       }
 
-      //now for the case where we have less than three cards
+      //TODO now for the case where we have less than three cards
 
     } while(newCardsRequested || moreCardsDesired); //repeat as long as he wants more cards, or he wants to purchase
                                                     //more from the three already revealed

@@ -17,6 +17,7 @@ private:
 	int reward;
 	Rewards rewardType;
 	bool isUnit;
+	bool isDestroyed;
 
 public:
 	Tile();
@@ -30,6 +31,8 @@ public:
 	void setReward(int);
 	void setRewardType(Rewards);
 	void setisUnit(bool);
+	bool getIsDestroyed();
+	void setIsDestroyed(bool);
 
 	Buildings getBuilding() const;
 	Units getUnit() const;
