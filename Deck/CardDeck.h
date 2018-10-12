@@ -14,14 +14,14 @@ private:
 	Card specialCards[NUMBER_OF_SPECIAL_CARDS];				// array to hold special cards
 	Card cardDeck[NUMBER_OF_CARDS];							// array that initally creates cards, used to shuffle deck
 	SinglyLinkedList<Card>* cardDeckList;					// deck of cards
-	SinglyLinkedList<Card>* discardedCards;					// deck of discarded cards 
+	SinglyLinkedList<Card>* discardedCards;					// deck of discarded cards
 
 public:
 	CardDeck();			// constructor
 	~CardDeck();		// destructor
 
 	SinglyLinkedList<Card>* getDeck();				// returns pointer to deck of cards
-	SinglyLinkedList<Card>* getDiscardedDeck();		// returns pointer to deck of discarded cards 
+	SinglyLinkedList<Card>* getDiscardedDeck();		// returns pointer to deck of discarded cards
 
 	void Print(SinglyLinkedList<Card>*);			// prints a deck of cards in a table
 	void Shuffle();									// shuffles the deck

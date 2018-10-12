@@ -30,7 +30,7 @@ public:
 	int getCost() const;						// get energy cost of card
 	HowTo getHowTo() const;						// get cards how to
 	string getEffect() const;					// get effect of card
-	
+
 	void Print();								// nice print of card
 };
 
