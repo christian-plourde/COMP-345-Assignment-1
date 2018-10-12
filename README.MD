@@ -1,4 +1,5 @@
 COMP 345 Assignment #1
+Team #4
 
 Group Members:
 --------------
