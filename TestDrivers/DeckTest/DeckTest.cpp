@@ -34,13 +34,14 @@ int main() {
 	cout << "MONSTER DECK TEST" << endl;
 	MonsterDeck monsterDeck;
 	monsterDeck.Print();
-	/*cout << endl << "UPDATING HEALTH OF CAPTAIN FISH" << endl;
-	monsterDeck.getMonster(CaptainFish).setHealth(5);
+	cout << endl << "UPDATING HEALTH OF CAPTAIN FISH" << endl;
+	Monsters m = monsterDeck.getMonster(CaptainFish);
+	monsterDeck.updateMonster(m.getName(), m.getVictoryPoints(), 5);
 	monsterDeck.getMonster(CaptainFish).Print();
-	monsterDeck.Print();
 	cout << endl << "UPDATING VICTORY POINTS OF KONG" << endl;
-	monsterDeck.getMonster(Kong).setVictoryPoints(10);
-	monsterDeck.getMonster(Kong).Print();*/
+	m = monsterDeck.getMonster(Kong);
+	monsterDeck.updateMonster(m.getName(), 10, m.getHealth());
+	monsterDeck.getMonster(Kong).Print();
 	system("pause");
 	system("CLS");
 
