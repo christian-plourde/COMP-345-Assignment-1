@@ -130,6 +130,11 @@ int Player::getHealth()
   return health;
 }
 
+void Player::setEnergy(int energy)
+{
+  this -> energy = energy;
+}
+
 void Player::setHealth(int health)
 {
   //make sure that the value is greater than or equal to zero
@@ -390,6 +395,18 @@ void Player::resolveDice()
   we will deal with each one one by one
   */
 
+  //we cannot resolve the dice if the map has not been loaded
+  try
+  {
+    if(MapLoader::getMap() == NULL)
+       throw MapNotLoadedException();
+  }
+
+  catch(MapNotLoadedException e)
+  {
+    std::cout << "The map has not been loaded yet!" << std::endl;
+  }
+
   //for the energy cubes, we simply need to count the number of energy cubes that the player has in his dice
   //rolled array and for each one, we increment his energycube count by one
   int i = 0;
@@ -399,6 +416,9 @@ void Player::resolveDice()
                             //anything
   int celebrityCount = 0; //same as before, we need to know how many the player has rolled before doing anything
 
+  int healCount = 0; //we need to track this, since if a player gets hit or attacked, he would like to heal after he has
+                     //been hit
+
   for(i = 0; i < 6; i++)
   {
     if(dice -> getResult()[i] == Energy)
@@ -406,10 +426,10 @@ void Player::resolveDice()
       energy++;
     }
 
-    //for the heal cubes, you gain one health for each heart rolled, unless you are in manhattan and the max is 10
-    if(dice -> getResult()[i] == Heal && health < 10 && (MapLoader::getMap() -> getVertex(zone) -> getData() != "master" && MapLoader::getMap() -> getVertex(zone) -> getData() != "inner"))
+    //for the heal cubes, you gain one health for each heart rolled, unless you are in manhattan
+    if(dice -> getResult()[i] == Heal && (MapLoader::getMap() -> getVertex(zone) -> getData() != "master" && MapLoader::getMap() -> getVertex(zone) -> getData() != "inner"))
     {
-      health++;
+      healCount++;
     }
 
     //for the attack cubes, the effect depends on where the player is
@@ -489,10 +509,352 @@ void Player::resolveDice()
   if(ouchCount > 0)
   {
     //if the player rolled at least an ouch, then we need to deal with it
-    
+
+    if(ouchCount == 1)
+    {
+      //if the ouch count is 1, then only the player who rolled gets attacked by the units in his area. For each unit in
+      //his borough, he loses one health
+      Tile* tileDeck;
+      tileDeck = TileDeck::getTileDeck();
+      int unitsInArea = 0; //we need to count the number of units that are in his area
+
+      for(int i = 0; i < 45; i++)
+      {
+        //check each tile to see if it is a unit in his borough and if it is not destroyed
+        if(tileDeck[i].getZone() == this -> getZone() && tileDeck[i].getIsUnit() && !tileDeck[i].getIsDestroyed())
+        {
+          //if the tile is in the same zone as the player and it is a unit, the increment the number of units in the borough
+          unitsInArea++;
+        }
+      }
+
+      //now that we know how many units are in the same region as the player, we decrease the number of health points
+      //that he has by that amount
+
+      this -> health -= unitsInArea;
+
+    }
+
+    //the second case, where the player rolled two ouches
+    if(ouchCount == 2)
+    {
+      //if the player rolled 2 ouches, then every player that is in the borough is affected by the ouch
+      //first we need to know how many units are in the area
+
+      Tile* tileDeck;
+      tileDeck = TileDeck::getTileDeck();
+      int unitsInArea = 0; //we need to count the number of units that are in his area
+
+      for(int i = 0; i < 45; i++)
+      {
+        if(tileDeck[i].getZone() == this -> getZone() && tileDeck[i].getIsUnit() && !tileDeck[i].getIsDestroyed())
+        {
+          //if the tile is in the same zone as the player and it is a unit, the increment the number of units in the borough
+          unitsInArea++;
+        }
+      }
+
+      //now that we have a count of the units in the area, we need to go through the list of players and for
+      //each player whose zone is equal to the zone of the player who rolled, we need to decrement their health by the units
+      //in area
+
+      //start of the head of the player list
+      node<Player*>* currentNode = players -> getHead();
+
+      while(currentNode != NULL)
+      {
+        //for each node, we need to check if that player's zone is equal to the rolling player's zone
+        if(currentNode -> getData() -> getZone() == this -> zone)
+        {
+          //if the player is in the same zone as the player who rolled, then we need to decrease his health as well as the
+          //who rolled
+          currentNode -> getData() -> setHealth(currentNode -> getData() -> getHealth() - 1);
+        }
+        currentNode = currentNode -> getNext();
+      }
+
+    }
+
+    //finally, if the player rolled three or mouch ouches, he sets off a city wide attack, where every player is attacked
+    //by every unit in his borough
+    //TODO find the statue of liberty card in the deck and assign it to the player who rolled
+    if(ouchCount >= 3)
+    {
+      //if three or more were rolled, then we need to go through each player one by one and hit each one for the appropriate
+      //amount if applicable
+
+      Tile* tiles; //this will hold all the tiles
+      tiles = TileDeck::getTileDeck();
+      int unitsInArea = 0; //the number of units in the current zone
+
+      //start at the head of the player list
+      node<Player*>* currentNode = players -> getHead();
+
+      //go through each player in the list
+      while(currentNode != NULL)
+      {
+        unitsInArea = 0; //reset the units in area
+        //for each player, we need to look at all the tiles and find how many are in his borough and are units
+
+        for(int i = 0; i < 45; i++)
+        {
+          //for each tile, check if the zone that the tile is in and if it is a unit
+          //if this is the case, then increment the number of units in the area
+          if(tiles[i].getIsUnit() && !tiles[i].getIsDestroyed() && tiles[i].getZone() == currentNode -> getData() -> getZone())
+          {
+            unitsInArea++;
+          }
+        }
+
+        //now that we have the number of units in that players area
+        //we should decrease that player's health by the number of units in the area
+        currentNode -> getData() -> setHealth(currentNode -> getData() -> getHealth() - 1);
+        currentNode = currentNode -> getNext();
+      }
+
+    }
+
   }
 
+  //now that the player has been hit by units and or attacked, now is the opportune time to heal. This is within the
+  //rules, since the player is free to resolve the dice in any order he likes
+  this -> setHealth(this -> health + healCount);
 
+  //now we will resolve  the building destruction cubes
+  //for the building destruction, this allows the player to destroy buildings in his borough
+  //First, we need to determine which buildings are actually available for him to destroy
+  //once again we need to look at each tile in the deck and find the ones that are in the same borough as the player
+  if(destructionCount > 0)
+  {
+    //we only want to do something if the player has a destruction cube
+    Tile* tileDeck;
+    tileDeck = TileDeck::getTileDeck();
+
+    //since we don't know how many buildings are going to be available to destroy for the player, it makes sense to store
+    //them in a linked list
+    SinglyLinkedList<Tile>* buildings = new SinglyLinkedList<Tile>();
+
+    for(int i = 0; i < 45; i++)
+    {
+      //if the tile is not a unit and it is in the same borough as the player, then is is available for destruction
+      if(!tileDeck[i].getIsUnit() && tileDeck[i].getZone() == this -> zone)
+      {
+         node<Tile>* toAdd = new node<Tile>(); //create a new node to add to the list
+         toAdd -> setData(tileDeck[i]); //set the data in the new node to the tile
+         buildings -> add(toAdd); //add that tile to the list
+      }
+    }
+
+    //now that we have all the buildings that are available for destruction by the player, we need to display them for him and
+    //ask him which ones he would like to destroy
+
+    int buildingSelected = 0; //the building that the player will choose to destroy
+
+    try
+    {
+      //if there are no buildings available for destruction, then we can simply delete the linked list and we are
+      //done with the destruction cubes
+      if(buildings -> getCount() == 0)
+      {
+        //if the number of nodes in the list is 0, then we don't have any buildings to destroy
+        throw buildings -> getCount();
+      }
+
+      //if the list was not empty, then we are here
+      //we should display all of the
+      node<Tile>* current = buildings -> getHead();
+      int nodeCount = 1; //this is to display the options for the player
+      bool validResponse = false; //to track if the response from the player was valid or not
+      bool destroyMoreBuildings = true; //to ask the player if he would like to destroy more buildings
+      std::string destroyResponse = ""; //the response of the player when he is asked if he would like to destroy more
+                                        //buildings
+      do
+      {
+        //reinitialize the parameters in the case where the player wants to destroy more than one buildings
+        validResponse = false;
+        nodeCount = 1;
+        destroyMoreBuildings = true;
+        current = buildings -> getHead();
+        destroyMoreBuildings = true;
+
+        //we need to get a response from the player
+        std::cout << "Please select a building to destroy: " << std::endl;
+
+        while(current != NULL)
+        {
+          //we should show him the information about the building
+          std::cout << nodeCount << ". ";
+          current -> getData().Print();
+          nodeCount++;
+          current = current -> getNext();
+        }
+
+        //now that he has seen the options, he must select which building he would like to destroy
+        try
+        {
+          //we will try to get a response from the player
+          std::cout << "Please enter your choice here: ";
+          std::cin >> buildingSelected;
+
+          if(buildingSelected < 1 || buildingSelected > buildings -> getCount())
+          {
+            //if the building he chose is outside the bounds of the list, then this is not a valid response
+            throw buildingSelected;
+          }
+
+          //we also need to check if the player has rolled enough destruction to detroy the building he wishes
+          //to destroy
+          //first we need to find the building that he wishes to destroy
+          current = buildings -> getHead();
+          int j = 1; //we need to go up to the building that he said
+          Tile toDestroy; //the tile that he wants to destroy
+
+          while(j <= buildingSelected)
+          {
+            toDestroy = current -> getData(); //set the tile to destroy to the one in the current node
+            j++; //increment j
+
+            current = current -> getNext(); //move to the next node in the list
+          }
+
+          //now if the durability of the building is greater than the destruction count of the player, then we should throw
+          //an exception
+
+          if(toDestroy.getDurability() > destructionCount)
+          {
+            throw NotEnoughDestructionRolledException();
+          }
+
+          //if we made it here, it means that the response was valid
+          validResponse = true;
+
+          //now we should destroy the building that the player wants to destroy
+          //since this only works for buildings, the tile in question should be flipped
+
+          std::cout << "Before destruction: " << std::endl;
+
+          //we should decrease the destructionCount by the durability of the building
+          destructionCount -= toDestroy.getDurability();
+          toDestroy.Print(); //show the tile before destruction
+          //we now need to flip the tile that was destroyed
+
+          //this code is the same as in the flip tile method in the tiledeck, but I dont have to create an object to do it
+          switch (toDestroy.getUnit())
+          {
+            case Infantry: toDestroy.setRewardType(heart); break;
+            case Jet: toDestroy.setRewardType(static_cast<Rewards>(energy)); break;
+            case Tank: toDestroy.setRewardType(star); break;
+          }
+
+          int durability = toDestroy.getDurability();
+          durability++;
+          toDestroy.setDurability(durability);
+
+          toDestroy.setisUnit(true);
+
+          std::cout << "After Destruction: " << std::endl;
+          toDestroy.Print(); //print the tile after destruction
+
+          //we should also remove it from the linked list in case he wants to destroy more buildings
+          //we need to find the node that was destroyed in the list
+          j = 1;
+          current = buildings -> getHead();
+
+          while(j < buildingSelected)
+          {
+            j++;
+            current = current -> getNext();
+          }
+
+          //now that we have found the node, we can remove it
+          buildings -> remove(current);
+
+          std::cout << "Building destroyed!" << std::endl;
+
+          //now that the building has been destroyed, if the player still has destruction dice, then we should ask him
+          //if he wants to destroy more buildings
+
+          if(destructionCount > 0)
+          {
+            //if he still has dice, we need to ask him if he wants to destroy some more buildings
+            bool valid = false; //check if the response was valid
+            do
+            {
+              try
+              {
+                //ask the player if we wants to destroy more buildings
+                std::cout << "You have " << destructionCount << " dice left for destruction. Would you like to destroy "
+                << "more buildings? Please enter (Y/N): ";
+
+                //place the response in destroy response
+                std::cin >> destroyResponse;
+
+                if(destroyResponse != "Y" && destroyResponse != "N")
+                {
+                  //if the response was invalid, then we throw it
+                  throw destroyResponse;
+                }
+              }
+
+              catch(std::string e)
+              {
+                //if the response was invalid we are here
+                std::cout << "The response '" << destroyResponse << "' is invalid. Please try again..." << std::endl;
+                valid = false; //valid response is false and force a new iteration
+                continue;
+              }
+
+              //if the response was valid then we are here
+              valid = true;
+              //if he said yes then he wants to destroy more buildings
+              if(destroyResponse == "Y")
+                destroyMoreBuildings = true;
+
+              //otherwise he is done destroying
+              else
+                destroyMoreBuildings = false;
+
+            } while(!valid);
+
+          }
+
+          else
+          {
+            //if the player has no more destruction dice, then he is done
+            std::cout << "You don't have any more destruction dice." << std::endl;
+            destroyMoreBuildings = false;
+          }
+
+        }
+
+        catch(int e)
+        {
+          //if the player entered a number outside the bounds of the list
+          std::cout << "The number " << buildingSelected << " is not a valid choice. Please try again..." << std::endl;
+        }
+
+        catch(NotEnoughDestructionRolledException e)
+        {
+          //if we are here, it means that the player did not have enough destruction dice to destroy that building
+          std::cout << e.what() << std::endl;
+        }
+
+      } while(!validResponse || destroyMoreBuildings);
+
+
+    }
+
+    catch(int e)
+    {
+      //this is the exception thrown if the list was empty.
+      //if this is the case, then display a message and move on
+      std::cout << this -> name << ", there are no buildings in your area that are available for destruction." << std::endl;
+    }
+
+    delete buildings;
+  }
+
+  //TODO resolve celebrity cubes
 }
 
 //a method for the player to purchase cards with his energy cubes
@@ -728,9 +1090,11 @@ void Player::buyCards(CardDeck* deck)
           {
             if(energy >= toAdd.getCost())
             {
-              //if the energy was greater than the cost of the carde, then the player can purchase it
+              //if the energy was greater than the cost of the card, then the player can purchase it
               cards -> add(&cardToAdd); //add the card to the player's cards
               topThree -> remove(currentCard); //remove it from the cards available
+              //finally, decrease the energy of the player by the cost of the card
+              energy = energy - toAdd.getCost();
             }
 
             else

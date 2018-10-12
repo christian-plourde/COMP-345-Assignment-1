@@ -11,6 +11,8 @@
 #include "../MapLoader/MapLoader.h"
 #include "../Deck/CardDeck.h"
 #include "../Lib/Exceptions/NotEnoughEnergyException.h"
+#include "../Lib/Exceptions/NotEnoughDestructionRolledException.h"
+#include "../Lib/Exceptions/MapNotLoadedException.h"
 #include "../Deck/TileDeck.h"
 
 class Player
@@ -53,6 +55,7 @@ class Player
     int getZone(); //return the zone that the player is currently in as an array index in graph. to get the name of the zone, call a method from graph
                    //with the returned integer
     void setZone(int); //set the zone that the player should now be in.
+    void setEnergy(int); //set the energy cube count for the player -- for testing only
     Dice* getDice(); //return a pointer to the dice object that this player is using
     void rollDice(); //a method for the player to roll the dice based on the rules of the game
     void move(); //a method to allow the player to move from one region to another
