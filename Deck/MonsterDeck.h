@@ -13,7 +13,8 @@ class MonsterDeck {
 		~MonsterDeck();						// destructor
 
 		Monsters getMonster(Characters);	// returns monster with Characters enum as name
-
+		int getMonsterPosition(Characters);			// returns position of monster with name Characters enum
+		bool updateMonster(Characters, int, int);	// updates monsters victory points and health with name Characters enum
 
 		void Print();						// print information about each monster
 };

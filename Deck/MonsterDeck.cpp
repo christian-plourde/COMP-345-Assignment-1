@@ -31,6 +31,25 @@ Monsters MonsterDeck::getMonster(Characters c) {
 	}
 }
 
+// returns integer position of monster object in the deck
+int MonsterDeck::getMonsterPosition(Characters c) {
+	for (int i = 0; i < NUMBER_OF_MONSTERS; i++) {
+		if (monsterDeck[i].getName() == c)
+			return i;
+	}
+	return -1;
+}
+
+// updates a monster in the deck with the set victory points and health
+bool MonsterDeck::updateMonster(Characters c, int vp, int heal) {
+	int i = getMonsterPosition(c);
+	if (i == -1)
+		return false;
+	monsterDeck[i].setVictoryPoints(vp);
+	monsterDeck[i].setHealth(heal);
+	return true;
+}
+
 // prints all monsters in the deck
 void MonsterDeck::Print() {
 	for (Monsters m : monsterDeck)

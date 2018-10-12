@@ -4,7 +4,7 @@ Team #4
 Group Members:
 --------------
 Christian Plourde I.D. 26572499
-Jack Burns I.D.
+Jack Burns I.D. 40033754
 
 This file contains information about running the test drivers for the different program components:
 ----------------------------------------------------------------------------------------------------
@@ -29,3 +29,7 @@ Player Testing:
 ----------------
 The various important methods of the player class, such as dice rolling, moving, buying cards, and resolving dice are all tested
 by different drivers in the player test directory. All of these tests are precompiled and can be run from the command line. For example, the 'playermovetest.exe', program tests the move method in the player class, while the 'playerrolltest.exe' tests the player dice rolling facility. All of these place the player in different scenarios and since many of these are dependent on the outcome of the dice roll, executing the driver multiple times will yield different results.
+
+Deck Testing:
+--------------
+This tests the various decks and their methods. It includes generating, manipulating and printing all the decks and their objects.
